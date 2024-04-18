@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="demand_request_email_template" model="mail.template">
+            <field name="name">Demand Request: Send by email</field>
+            <field name="model_id" ref="model_demand_request"/>
+            <field name="email_from">{{object.Agent_id.email or ''}}</field>
+            <field name="email_to">{{object.env.user.email or ''}}</field>
+            <field name="subject">Requesting for Copies</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear sir,
+                    </p>
+                    <p>
+                        Request has been raised by
+                        <span t-field="object.Agent_id.name"/>
+                    </p>
+                </div>
+            </field>
+        </record>
+        <record id="demand_reject_email_template" model="mail.template">
+            <field name="name">Demand Request Reject: Send by email</field>
+            <field name="model_id" ref="model_demand_request"/>
+            <field name="email_from">{{object.env.user.email or ''}}</field>
+            <field name="email_to">{{object.Agent_id.email or ''}}</field>
+            <field name="subject">Reason for Reject</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear sir,
+                    </p>
+                    <p>
+                        Reject has been raised by
+                        <span t-field="object.env.user.name"/>, Reason Is
+                        <span t-field="object.reject_reason"/>
+
+                    </p>
+                </div>
+            </field>
+        </record>
+        <record id="return_request_email_template" model="mail.template">
+            <field name="name">Return Request: Send by email</field>
+            <field name="model_id" ref="model_return_request_line"/>
+            <field name="email_from">{{object.return_id.agent_id.email or ''}}</field>
+            <field name="email_to">{{object.env.user.email or ''}}</field>
+            <field name="subject">Requesting for Return Copies</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear sir,
+                    </p>
+                    <p>
+                        Request has been raised by
+                        <span t-field="object.return_id.agent_id.name"/>
+                    </p>
+                </div>
+            </field>
+            <!--            <field name="report_template" ref=""/>-->
+            <!--            <field name="report_name"></field>-->
+        </record>
+    </data>
+</odoo>
+

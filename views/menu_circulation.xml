@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="circulation_action_agents_view" model="ir.actions.act_window">
+        <field name="name">Newsprint Agents</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="res_partner_tree_zone"/>
+        <field name="domain">[('is_newsprint_agent','=',True)]</field>
+        <field name="context">{'default_is_newsprint_agent' :True}</field>
+    </record>
+
+
+    <record id="circulation_action_zone_view" model="ir.actions.act_window">
+        <field name="name">Zones</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_zone','=',True)]</field>
+        <field name="context">{'default_is_zone' :True}</field>
+    </record>
+
+    <record id="action_indent_current_day" model="ir.actions.act_window">
+        <field name="name">Current Day</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="sales_circulation.view_internal_order_tree"/>
+        <field name="domain">[('internal_order','=',True)]</field>
+        <field name="context">{"search_default_today":1,"default_internal_order":1}</field>
+    </record>
+
+    <record id="action_indent_yesterday_day" model="ir.actions.act_window">
+        <field name="name">Yesterday Day</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="sales_circulation.view_internal_order_tree"/>
+        <field name="domain">[('internal_order','=',True)]</field>
+        <field name="context">{"search_default_yesterday":1}</field>
+    </record>
+
+    <record id="action_total_demand_request" model="ir.actions.act_window">
+        <field name="name">Demand Request</field>
+        <field name="res_model">demand.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_agent_returns" model="ir.actions.act_window">
+        <field name="name">Agent returns</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">contact.report</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="contact_reports_tree" />
+        <field name="context">{"default_credit_note":False}</field>
+        <field name="domain">[('credit_note', '=', False),('agent.user_id', '=', uid),('stock_picking_return.name', 'ilike', 'RET')]</field>
+    </record>
+
+    <record id="action_agent_indent" model="ir.actions.act_window">
+        <field name="name">Agent Indent</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">contact.report</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="contact_reports_tree" />
+        <field name="domain">[('agent.user_id', '=', uid)]</field>
+    </record>
+
+    <record id="action_sales_circulation_view_invoices" model="ir.actions.act_window">
+        <field name="name">Agent Invoices </field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"default_internal_order_bool":True}</field>
+        <field name="domain">[('partner_id', 'in', vendor_list)]</field>
+    </record>
+
+    <record id="action_sales_circulation_view_vendor_bills" model="ir.actions.act_window">
+        <field name="name">Transportation Bills</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"default_is_transportation":True}</field>
+        <field name="domain">[("is_transportation","=",True),('move_type', '=', 'in_invoice')]</field>
+    </record>
+
+    <record id="action_sales_circulation_payment_view" model="ir.actions.act_window">
+        <field name="name">Agent Payments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="account.view_account_payment_tree"/>
+        <field name="domain">[('unit_id.user_id', '=', uid)]</field>
+    </record>
+
+    <record id="circulation_action_agents_view" model="ir.actions.act_window">
+        <field name="name">Newsprint Agents</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="res_partner_tree_zone"/>
+        <field name="domain">[('is_newsprint_agent','=',True)]</field>
+        <field name="context">{'default_is_newsprint_agent' :True}</field>
+    </record>
+
+
+    <record id="sales_circulation_dashboard_action" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">sales_circulation_dashboard_tags</field>
+    </record>
+
+    <record id="circulation_agent_dashboard_action" model="ir.actions.client">
+        <field name="name">Agent Dashboard</field>
+        <field name="tag">circulation_agent_dashboard_tags</field>
+    </record>
+
+
+    <menuitem id="sales_circulation_dashboard" name="Dashboard" parent="circulation_main_menu" sequence="1"
+              action="sales_circulation_dashboard_action"  groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+/>
+    <menuitem id="circulation_agent_dashboard" name=" Agent Dashboard" parent="circulation_main_menu" sequence="1"
+              action="circulation_agent_dashboard_action"
+/>
+
+    <menuitem id="circulation_main_menu"
+              name="Circulations"
+              sequence="0"
+              web_icon="sales_circulation,static/description/icon.png"
+              action="sales_circulation_dashboard_action"
+              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+
+    <menuitem id="circulation_configaration_menu"
+              name="Configuration"
+              parent="circulation_main_menu"
+              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+
+    <record id="action_open_form_view_current_date_with_context" model="ir.actions.server">
+        <field name="name">Internal Order</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">model.redirect_to_sale_order()</field>
+        <field name="binding_model_id" ref="model_sale_order"/>
+    </record>
+
+    <menuitem id="circulation_order_main_menu"
+              name="Orders"
+              sequence="2"
+              parent="circulation_main_menu"
+              action="sale.action_quotations_with_onboarding"
+              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+    <menuitem id="circulation_internal_order_main_menu"
+              name="Internal Orders"
+              sequence="1"
+              parent="circulation_order_main_menu"
+              action="action_indent_current_day"
+              />
+<!--    <menuitem id="circulation_internal_order_main_menu"-->
+<!--              name="Internal Orders"-->
+<!--              sequence="1"-->
+<!--              parent="circulation_order_main_menu"-->
+<!--              action="sale.action_quotations_with_onboarding"-->
+<!--              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"-->
+<!--    />-->
+
+    <menuitem id="circulation_priniting_unit_menu"
+              name="Printing Units"
+              parent="circulation_configaration_menu"
+              sequence="3"
+              action="Printing_units_action"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+
+    />
+
+    <menuitem id="circulation_agent_menu"
+              name="Agents"
+              parent="circulation_configaration_menu"
+              sequence="4"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+    <menuitem id="contact_agents_submenu"
+              name="Regions"
+              parent="circulation_configaration_menu"
+              sequence="5"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+    <menuitem id="res_zone_menu"
+              name="Zones"
+              parent="contact_agents_submenu"
+              sequence="5"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              action="circulation_action_zone_view"/>
+
+    <menuitem id="contact_reports_submenu"
+              name="Agent Summary"
+              parent="circulation_agent_menu"
+              sequence="4"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              action="contact_report"/>
+
+    <menuitem id="circulation_mains_menu"
+              name="Mains"
+              parent="circulation_configaration_menu"
+              sequence="6"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              action="units_mains_action"/>
+
+    <menuitem id="circulation_regions_menu"
+              name="Agents"
+              parent="circulation_agent_menu"
+              sequence="5"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              action="region_zone_action"/>
+
+    <menuitem id="regions_main" name="Agents Master"
+              parent="circulation_agent_menu"
+              sequence="3"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              action="circulation_action_agents_view"/>
+
+    <menuitem id="circulation_menu_products"
+              name="Products"
+              parent="circulation_configaration_menu"
+              sequence="7"
+              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+    <menuitem id="circulation_menu_products_products"
+              action="product.product_template_action"
+              parent="circulation_menu_products"
+              sequence="1"
+              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+    <menuitem id="circulation_menu_products_variants"
+              action="product.product_normal_action_sell"
+              parent="circulation_menu_products"
+              sequence="2"
+              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+    <menuitem id="action_production_lot_form"
+              action="stock.action_production_lot_form"
+              parent="circulation_menu_products"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              sequence="3"/>
+
+    <menuitem id="circulation_mrp_production_action"
+              name="Manufacturing Orders"
+              parent="circulation_main_menu"
+              action="mrp.mrp_production_action"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              sequence="8"/>
+
+    <!--    for additionssssssss-->
+    <record id="circulation_action_additions_view" model="ir.actions.act_window">
+        <field name="name">Editions</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_additions','=',True)]</field>
+        <field name="context">{'default_is_additions' :True}</field>
+    </record>
+
+    <record id="circulation_action_district_view" model="ir.actions.act_window">
+        <field name="name">Districts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_district','=',True)]</field>
+        <field name="context">{'default_is_district' :True}</field>
+    </record>
+
+    <menuitem id="res_additions_menu"
+              name="Editions"
+              parent="contact_agents_submenu"
+              sequence="1"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              action="circulation_action_additions_view"/>
+
+    <menuitem id="res_districts_menu"
+              name="Districts"
+              parent="contact_agents_submenu"
+              sequence="2"
+              groups="group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+              action="circulation_action_district_view"/>
+
+    <record model="ir.ui.view" id="sale_order_line_view_tree_inherite">
+        <field name="name">sale Order Tree</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="printing_unit"/>
+                <field name="agent_user_id"/>
+                <field name="contact_name"/>
+                <field name="agent_code"/>
+                <field name="region_s" type="row"/>
+                <field name="product_template_id"/>
+                <field name="newspaper_date" />
+                <field name="name"/>
+                <field name="product_uom_qty" string="Number of copies"/>
+                <field name="magazine"/>
+                <field name="special_Edition"/>
+                <field name="product_uom"/>
+                <field name="price_unit"/>
+                <field name="tax_id" widget="many2many_tags"/>
+                <field name="discount"/>
+                <field name="price_subtotal"/>
+                <field name="free_copies" optional="hide"/>
+                <field name="agent_copies" optional="hide"/>
+                <field name="postal_copies" optional="hide"/>
+                <field name="voucher_copies" optional="hide"/>
+                <field name="promotional_copies" optional="hide"/>
+                <field name="correspondents_copies" optional="hide"/>
+                <field name="office_copies" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_sale_order_line" model="ir.actions.act_window">
+        <field name="name">Agent Indents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line</field>
+<!--        <field name="view_id" ref="sale_order_line_tree_view"/>-->
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('order_id.internal_order', '=', True)]</field>
+        <field name="context">{"search_default_create_date": 1}</field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_line_tree_view_pivot_1">
+        <field name="name">sale.order.line.tree.view.pivot</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="newspaper_date" type="col" interval="month"/>
+                <field name="newspaper_date" type="col" interval="week"/>
+                <field name="newspaper_date" type="col" interval="day"/>
+                <field name="region_s" type="row"/>
+                <field name="free_copies" type="measure" sum="Total"/>
+                <field name="agent_copies" type="measure" sum="Total"/>
+                <field name="postal_copies" type="measure" sum="Total"/>
+                <field name="voucher_copies" type="measure" sum="Total"/>
+                <field name="correspondents_copies" type="measure" sum="Total"/>
+                <field name="office_copies" type="measure" sum="Total"/>
+                <field name="promotional_copies" type="measure" sum="Total"/>
+                <field name="price_total" type="measure" sum="Total"/>
+            </pivot>
+        </field>
+    </record>
+    <menuitem id="circulation_agent_indents_sale_order_line"
+              name="Agent Indents"
+              parent="circulation_configaration_menu"
+              sequence="4"
+              action="action_sale_order_line"/>
+
+    <record id="action_mail_closed" model="ir.actions.server">
+        <field name="name">Bills/Invoices</field>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">action = model.agent_invoices()</field>
+    </record>
+
+    <record id="action_account_payment_agents" model="ir.actions.server">
+        <field name="name">Payment Collections</field>
+        <field name="model_id" ref="model_account_payment"/>
+        <field name="state">code</field>
+        <field name="code">action = model.agents_account_payments()</field>
+    </record>
+
+    <record id="action_transportation_bills" model="ir.actions.server">
+        <field name="name">Transportation Bills</field>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">action = model.vehicles_transportation_bill()</field>
+    </record>
+
+    <record id="action_demand_request_approval" model="ir.actions.server">
+        <field name="name">Demand Request Approval</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="state">code</field>
+        <field name="code">action = model.demand_request_approval()</field>
+    </record>
+
+    <record id="action_today_indent_demand" model="ir.actions.server">
+        <field name="name">Today Indent Demand</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">action = model.today_indent_demand()</field>
+    </record>
+
+    <record id="action_yesterday_indent_supplied" model="ir.actions.server">
+        <field name="name">Yesterday Indent Supplied</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">action = model.yesterday_indent_supplied()</field>
+    </record>
+
+
+</odoo>

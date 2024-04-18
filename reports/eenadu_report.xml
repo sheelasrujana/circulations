@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_patient_id_card">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <style>
+                    .new{
+                    float:left;
+                    color:orange;
+                    }
+                    .new1{
+                    float:right;
+                    color:orange;
+                    }
+                </style>
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div>
+                                <div style="height:350px; width:1000px; border:3px dotted orange" class="new">
+                                    <h2 align="middle" style="padding-top:15px;">
+                                        <b>USHODAYA PUBLICATIONS</b>
+                                    </h2>
+                                    <span style="padding-left:280px; color:black;">
+                                        <field t-field="o.transport_entry_details.picking"/>
+                                    </span>
+                                    <span style="margin-left:70px;">Publishers of EENADU</span>
+                                    <span style="margin-left:160px; color:black;">
+                                        <field t-field="o.scheduled_date"/>
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span style="margin-left:280px; color:black;">
+                                        <field t-field="o.partner_id"/>
+                                    </span>
+                                    <br/>
+                                    <span style="margin-left:280px; color:black;">
+                                        <field t-field="o.res_unit"/>
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span style="margin-left:430px;">EENADU</span>
+                                    <span style="margin-left:150px; color:black;"></span>
+                                    <br/>
+                                    <span style="margin-left:440px;">MINI</span>
+                                    <span style="margin-left:150px; color:black;"></span>
+                                    <span style="margin-left:100px; color:black;"></span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span style="margin-left:25px; padding-bottom:30px;">IF UNDELIVERED PLEASE RETURN TO
+                                        EENADU
+                                    </span>
+                                </div>
+                                <div style="height:350px; width:500px; border:1px solid orange; margin-left:50px;"
+                                     class="new1">
+                                    <div style="margin-left:10px; margin-top:40px;">
+                                        DATE
+                                        <span style="padding-left:95px; color:black;">:</span>
+                                        <span style="padding-left:90px; color:black;">
+                                            <field t-field="o.scheduled_date"/>
+                                        </span>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div style="margin-left:10px;">PLACE
+                                        <span style="padding-left:85px; color:black;">:</span>
+                                        <span style="padding-left:90px; color:black;">
+                                            <field t-field="o.transport_entry_details.location"/>
+                                        </span>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div style="margin-left:10px;">EENADU
+                                        <span style="padding-left:70px; color:black">:</span>
+                                        <span style="padding-left:90px; color:black;">
+                                            <field t-field="o.backorder_ids.quantity_done"/>
+                                        </span>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div style="margin-left:10px;">FRESS
+                                        <span style="padding-left:88px; color:black;">:</span>
+                                        <span style="padding-left:90px; color:black;">
+                                            <span style="padding-left:15px;">*</span>
+                                            <span style="padding-left:15px;">*</span>
+                                            <span style="padding-left:15px;">*</span>
+                                            <span style="padding-left:15px;">*</span>
+                                            <span style="padding-left:15px;">*</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span style="padding-left:700px; padding-top:10px; color:black; font-size:18px; color:black;">
+                                EENADU Ramoji
+                                Film City Anjapur, HYD-501512
+                            </span>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+
+    <record id="paperformat_eenadu" model="report.paperformat">
+        <field name="name">Ushodaya Publications</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">273</field>
+        <field name="page_width">280</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10.00</field>
+        <field name="margin_bottom">10.00</field>
+        <field name="margin_left">10.0</field>
+        <field name="margin_right">10.0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">125</field>
+    </record>
+
+    <record id="eenadu_template_action" model="ir.actions.report">
+        <field name="name">Ushodaya Publications</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sales_circulation.report_patient_id_card</field>
+        <field name="report_file">sales_circulation.report_patient_id_card</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="paperformat_id" ref="sales_circulation.paperformat_eenadu"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

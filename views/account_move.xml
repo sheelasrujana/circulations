@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="inherit_account_move_form" model="ir.ui.view">
+        <field name="name">Account Move</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_transportation" invisible="1"/>
+                <field name="internal_order_bool" invisible="1"/>
+                <field name="return_request_bool" invisible="1"/>
+                <field name="unit_id"/>
+                <field name="ret_ids" widget="many2many_tags" invisible="1"/>
+                <field name="newsprint_agent" attrs="{'invisible':[('internal_order_bool','!=',True)]}"/>
+                <field name="total" attrs="{'invisible':[('internal_order_bool','!=',True)]}"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="add_invoice_lines" type="object" string="Add Invocies Lines"
+                        attrs="{'invisible':[('state','!=','draft')]}"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherit_view_account_payment_form" model="ir.ui.view">
+        <field name="name">Account payment</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="unit_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_view_account_payment_status_form" model="ir.ui.view">
+        <field name="name">Account payment Status</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_state']" position="after">
+                <field name="payment_status" decoration-success="payment_status=='on_time'"
+                       decoration-danger="payment_status=='late'" widget="badge"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="action_agent_invoice">
+        <field name="name">Invoice Of Agent</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">
+            if record:
+            action_values = env.ref('sales_circulation.action_generate_agent_invoice').sudo().read()[0]
+            action_values.update({'context': env.context})
+            action = action_values
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="action_agent_invoice">
+        <field name="name">Invoice Of Agent</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">
+            if record:
+            action_values = env.ref('sales_circulation.action_generate_agent_invoice').sudo().read()[0]
+            action_values.update({'context': env.context})
+            action = action_values
+        </field>
+    </record>
+
+    <record id="ir_cron_for_agents_invoice" model="ir.cron">
+        <field name="name">Agents Invoices</field>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">model.creating_agent_invoices()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">months</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+    <record id="action_create_invoice_count_per_fiscal_year_and_customer" model="ir.actions.server">
+        <field name="name">Create Account Payment State</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">records.action_create_invoice_count_per_fiscal_year_and_customer()</field>
+    </record>
+
+    <record id="inherit_account_move_form_vendor_bills_view" model="ir.ui.view">
+        <field name="name">Vendor Bills</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page[@name='invoice_tab']" position="after">
+                <page name="payment_details" string="Payment Details"
+                      attrs="{'invisible':[('internal_order_bool','!=',True)]}">
+                    <field name="payment_details"/>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

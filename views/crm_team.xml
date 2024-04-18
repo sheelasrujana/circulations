@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="inherit_crm_team_move_form" model="ir.ui.view">
+        <field name="name">Sales Team</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="before">
+                <field name="parent_team_id" />
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

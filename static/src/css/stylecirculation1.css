@@ -1,0 +1,119 @@
+.bg-c-yellow {
+    background: #ffb64d;
+}
+
+.comp-card i {
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 17px 0;
+    font-size: 18px;
+    text-shadow: 0 6px 8px rgba(62,57,107,.18);
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+.DESIGN {
+    text-align: justify;
+    margin-right: -150px;
+    margin-left: 0px;
+    margin-top: 1px;
+}
+
+.color i {
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 17px 0;
+    font-size: 18px;
+    text-shadow: 0 6px 8px rgba(62,57,107,.18);
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+.bg-c-green {
+    background: #2ed8b6;
+}
+.bg-c-blue {
+    background: #4099ff;
+}
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 5px 0 rgba(43,43,43,.1), 0 11px 6px -7px rgba(43,43,43,.1);
+    box-shadow: 0 0 5px 0 rgba(43,43,43,.1), 0 11px 6px -7px rgba(43,43,43,.1);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+.bg-c-red {
+    /* background:#DC8472; */
+}
+.bg-c-dark {
+    background: #603cba;
+}
+.bg-c-voilet{
+    background: #833c85;
+}
+.bg-c-gray{
+    background: #34495E;
+}
+.bg-c-brown {
+    background: brown;
+}
+strong{
+font-weight: 400!important;
+}
+ .border
+   {
+   border-radius: 10px !important;
+    padding: 15px;
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

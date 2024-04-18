@@ -1,0 +1,350 @@
+html .o_web_client > .o_action_manager {
+    direction: ltr;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 100%;
+    overflow: scroll !important;
+    overflow-x:hidden !important;
+}
+
+.common_card{
+    background: #fff;
+    color: #585454;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 2px 2px #EFEFEA;
+    border-bottom: 1px solid #ccc;
+    border: 2px solid #efefef !important;
+    margin: 2px !important;
+}
+
+.cio_card{
+background: #fff;
+    color: #585454;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 2px 2px #EFEFEA;
+    border: 1px solid #ccc;
+}
+
+.hdr1_bg_color{
+
+    /*background:#FAD223 !important;*/
+    background-image: linear-gradient(to right, #8e2de2, #4a00e0) !important;
+}
+
+.hdr2_bg_color{
+
+    /*background:#BE0701 !important;*/
+    background-image: linear-gradient(to right, #00b4db, #0083b0)!important;
+}
+.hdr3_bg_color{
+
+    /*background:#FF9B85 !important;*/
+    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e)!important;
+}
+.hdr4_bg_color{
+
+    /*background:#02314D !important;*/
+    background-image: linear-gradient(to right, #870000, #190a05)!important;
+}
+.hdr5_bg_color{
+
+    /*background:#CA0C28 !important;*/
+    background-image: linear-gradient(to right, #ff512f, #f09819)!important;
+}
+.hdr6_bg_color{
+
+    /*background:#EF97B5 !important;*/
+    background-image: linear-gradient(to right, #141e30, #243b55)!important;
+}
+.hdr7_bg_color{
+
+    background-image: linear-gradient(to right, #8ba8f5, #3f2b96) !important; /*background:#a10a1e*/
+}
+.hdr8_bg_color{
+
+    /*background:#dc3545!important;*/
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(34,34,79,1) 35%, rgba(23,110,128,1) 100%) !important;
+}
+
+
+.card_header{
+
+    padding: 8px;
+    margin-bottom: 5px;
+    background: #efefef;
+    font-weight:bold !important;
+    font-size:15px;
+    margin: 0px auto;
+    width: 100%;
+    color:#FFF !important;
+    float: left;
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+
+}
+
+.card_header_left{
+
+    text-align: left;
+    float: left;
+    padding-left: 7px;
+}
+
+.card_header_right{
+
+    text-align: left;
+    float: right;
+    padding-right: 7px;
+    font-size:15px;
+}
+
+
+.cio_card:hover{
+	box-shadow:5px #efefef;
+	background: linear-gradient(45deg,#64eb6d,#3ba542);
+}
+
+.scheduling_card{
+    background: linear-gradient(45deg,#b8860b,#f8cd65);
+	/*background:#b8860bb8;*/
+	color:#fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+}
+
+.scheduling_card:hover{
+	box-shadow:5px #efefef;
+	background: linear-gradient(45deg,#f8cd65,#b8860b);
+}
+
+.waiting_for_approval_card{
+    background: linear-gradient(45deg,#f06050,#f58376);
+	/*background:#f14040cc;*/
+	color:#fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+}
+
+.waiting_for_approval_card:hover{
+	box-shadow:5px #efefef;
+	background: linear-gradient(45deg,#f58376,#f06050);
+}
+
+.ro_card{
+    background: linear-gradient(45deg,#705ba5,#a483f8);
+	/*background:#705ba5ad;*/
+	color:#fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+}
+
+.ro_card:hover{
+	box-shadow:5px #7651d2;
+	background: linear-gradient(45deg,#a483f8,#705ba5);
+}
+
+.invoice_card{
+    background: linear-gradient(45deg,#dc8c4d,#edc9ab);
+	/*background:#dc8c4d;*/
+	color:#fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+}
+
+.invoice_card:hover{
+	box-shadow:5px #efefef;
+	background: linear-gradient(90deg,#dc8c4d,#edc9ab);
+}
+
+.deposit_card{
+    background: linear-gradient(45deg,#4099ff,#73b4ff);
+	/*background:#737feacc;*/
+	color:#fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+}
+
+.deposit_card:hover{
+	box-shadow:5px #efefef;
+	background: linear-gradient(45deg,#73b4ff,#4099ff);
+}
+
+.commission_card{
+    background: linear-gradient(45deg,#FF5370,#ff869a);
+	/*background:#26c6da;*/
+	color:#fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+}
+
+.commission_card:hover{
+	box-shadow:5px #efefef;
+	background: linear-gradient(45deg,#ff869a,#FF5370);
+}
+
+.incentive_card{
+    background: linear-gradient(45deg,#FFB64D,#ffcb80);
+	/*background:#66bb6a;*/
+	color:#fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-radius: 5px;
+}
+
+.incentive_card:hover{
+	box-shadow:5px #efefef;
+	background: linear-gradient(45deg,#ffcb80,#FFB64D);
+}
+
+.spacer_row{
+    padding:5px;
+}
+.common_margin{
+    margin-bottom:2px;
+}
+.welcomenote{
+font-size:16px;
+text-align:center;
+}
+.userclass{
+font-size:20px;
+font-weight:bold;
+}
+.tableheader_new{
+font-size:17px;
+font-weight:bold;
+padding:5px;
+border-bottom:1px solid #ccc;
+}
+/*header{
+	background: #FF9900 !important;
+}*/
+
+.headertablefixed {
+   position: sticky;
+   top:0;
+        }
+
+/*table css */
+
+
+.table-nw {
+--bs-table-bg: #20acd4 !important;
+    --bs-table-striped-bg: #20acd4 !important;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #20acd4 !important;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #20acd4 !important;
+    --bs-table-hover-color: #fff;
+    color: #fff;
+    border-color: #373b3e;
+}
+
+.o_burger_menu .o_burger_menu_topbar {
+    min-height: 46px;
+    background-color: #20acd4;
+    color: #FFFFFF;
+    line-height: 46px;
+}
+
+.o_burger_menu .o_burger_menu_content.o_burger_menu_dark {
+    background-color: #20acd4;
+}
+
+.button {
+  left: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.chart {
+  align-content: center;
+  display: flex;
+  justify-content: center;
+}
+
+.name {
+  font-size: .8rem;
+  font-weight: light;
+}
+
+/* form alignment css*/
+
+.form {
+  /*max-width: 100%;*/
+  padding: 30px;
+  box-shadow: 0px 0px 16px 4px rgba(0,0,0,0.1);
+  margin: 0px auto !important;
+}
+
+fieldset {
+  margin: 0px auto;
+  border: 1px solid #ccc;
+  border-radius:10px;
+  width:800px;
+  margin-top:50px;
+}
+
+legend {
+  background: #eee;
+  padding: 4px 10px;
+  color: #000;
+  margin: 0 auto;
+  display: block;
+  border-radius:10px;
+  text-align:center;
+  border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.inputWrap {
+  margin: 0 0 12px 0;
+  width: 100%;
+}
+
+.inputWrap label {
+  margin: 0 0 3px 0;
+  display: block;
+}
+
+.inputWrap input {
+  padding: 4px 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.btn-fill-primary, .btn-primary {
+    color: #FFF;
+    background-color: #20ACD4;
+    border-color: #20ACD4;
+}
+
+.form label {
+    font-weight: normal;
+}
+
+.header_border{
+    padding: 10px;
+    margin-top: 12px;
+    border-bottom: 1px solid #CCC;
+}
+
+.col_lg_ext_Name{
+    width:12%;
+}
+
+.col_lg_ext_fdat{
+    width:9%;
+}
+
+.common_margin {
+    margin: 0px !important;
+}

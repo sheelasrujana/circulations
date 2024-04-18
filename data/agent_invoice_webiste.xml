@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_invoices_new" name="My Invoices and Payments New"
+              inherit_id="account.portal_my_invoices">
+        <xpath expr="//thead/tr/th[3]"
+               position="after">
+            <th>
+                Due Days
+            </th>
+        </xpath>
+        <xpath expr="//tbody/t/tr/td[3]" position="after">
+            <td class='d-none d-md-table-cell'>
+                <t t-foreach="invoices" t-as="invoice">
+<!--                    <t t-esc="invoice.remaining_days"/>-->
+                </t>
+            </td>
+        </xpath>
+    </template>
+</odoo>

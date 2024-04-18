@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.inheritance</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//form/sheet" position="before">-->
+<!--                <header attrs="{'invisible':[('is_newsprint_agent','!=',True)]}">-->
+<!--                    <field name="state" widget="statusbar"/>-->
+<!--                </header>-->
+<!--            </xpath>-->
+            <xpath expr="//notebook/page[@name='contact_addresses']" position="before">
+                <page string="Admin Details" name="admin_details"
+                      attrs="{'invisible':[('is_printing_unit','!=',True)]}">
+                    <group>
+                        <field name="unit_admin" string="Unit Admin"/>
+                        <label for="street" string="Address"/>
+                        <div class="o_address_format">
+                            <field name="unit_admin_street" placeholder="Street..." class="o_address_street"/>
+                            <field name="unit_admin_street2" placeholder="Street 2..." class="o_address_street"/>
+                            <field name="unit_admin_city" placeholder="City" class="o_address_city"/>
+                            <field name="unit_admin_district" placeholder="District" class="o_address_district"/>
+                            <field name="unit_admin_state_id" class="o_address_state" placeholder="State"
+                                   options="{'no_open': True, 'no_quick_create': True}"
+                                   context="{'default_country_id': country_id}"/>
+                            <field name="unit_admin_zip" placeholder="ZIP" class="o_address_zip"/>
+                            <field name="unit_admin_country_id" placeholder="Country" class="o_address_country"
+                                   options='{"no_open": True, "no_create": True}'/>
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='is_newsprint_agent']" position="after">
+                <field name="active_agent" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"
+                       widget="boolean_toggle" style="text-decoration:Red;"/>
+            </xpath>
+            <xpath expr="//form/sheet//group/group/span[@class='o_form_label o_td_label']/b" position="attributes">
+                <attribute name="attrs"></attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_type']" position="after">
+                <group>
+                    <field name="is_printing_unit" invisible="1"/>
+                    <field name="short_code_unit" options="{'horizontal': true}"
+                           attrs="{'invisible':[('is_printing_unit','!=',True)]}" string="Short Code"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="parent_id_district_o2m" attrs="{'invisible':[('is_district','!=',True)]}"
+                       placeholder="Edition Name...."/>
+                <field name="parent_id_zone_o2m" attrs="{'invisible':[('is_zone','!=',True)]}"
+                       placeholder="District Name..."/>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="after">
+                <group>
+                    <field name="unit_partner_id" attrs="{'invisible':[('is_printing_unit','!=',True)]}" string="Unit Incharge"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="before">
+                <field name="district_id" class="o_address_city" placeholder="District..."/>
+            </xpath>
+            <xpath expr="//form/sheet/group/group[2]" position="inside">
+<!--                <field name="is_segment_incharge"/>-->
+                <field name="segment_agents" widget="many2many_tags" groups="eenadu_reta.reta_Head_group"/>
+                <field name="is_vehicle_vendor" groups="eenadu_reta.reta_Head_group"/>
+                <field name="unit_ids" attrs="{'invisible':[('is_printing_unit','!=',True)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='segment_agents']" position="after">
+                <field name="is_newsprint_agent" invisible="1"/>
+                <field name="is_zone"
+                       style="box-shadow:1px 1px 1px 1px #b3bac2;border: 2px solid #FFF;background: #5c8da8;"
+                       attrs="{'invisible':[('is_zone','!=',True)]}"/>
+                <field name="ref_zone" attrs="{'invisible':[('is_zone','!=',True)]}"/>
+                <field name="no_pages" attrs="{'invisible':[('is_zone','!=',True)]}"/>
+
+
+                <!--                attrs="{'invisible':(['|','|','|',('is_additions','=',True),('is_newsprint_agent','=',True),('is_printing_unit','=',True),('is_district','=',True)])}"-->
+                <!--                for additionssssssss -->
+
+
+                <field name="is_additions"
+                       attrs="{'invisible':([('is_additions','!=',True)])}"/>
+
+                <field name="ref_edition" attrs="{'invisible':[('is_additions','!=',True)]}"/>
+
+                <field name="no_pages_edition" attrs="{'invisible':[('is_additions','!=',True)]}"/>
+                <field name="is_district"
+                       attrs="{'invisible':([('is_district','!=',True)])}"/>
+
+                <field name="ref_district" attrs="{'invisible':[('is_district','!=',True)]}"/>
+
+                <field name="no_pages_district" attrs="{'invisible':[('is_district','!=',True)]}"/>
+
+                <field name="region_zone" widget="many2many_tags"
+                       attrs="{'invisible': [('is_zone','!=',True)],'required':[('is_zone','=',True)]}"/>
+                <!--                            may 18 9 required-->
+
+                <field name="Associated_Units" widget="many2many_tags"
+                       attrs="{'invisible': [('is_additions', '!=', True)]}"/>
+                <field name="associated_edition" widget="many2many_tags"
+                       attrs="{'invisible': [('is_district', '!=', True)]}"/>
+                <!--                <field name="ass_dis"-->
+                <!--                       attrs="{'invisible': [('is_zone', '!=', True)]}"/>-->
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']" position="before">
+                <page string="Circulation Copies Details" name="circulation_copies_details" attrs="{'invisible':[('is_zone', '!=', True)]}">
+                    <group class="oe_left oe_form_group">
+                        <field name="associated_district" widget="many2many_tags"
+                               attrs="{'invisible': [('is_zone', '!=', True)]}"/>
+                        <field name="newspaper_quantity" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                        <field name="Postal_copies" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                        <field name="voucher_copies" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                        <field name="promotional_copies" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                    </group>
+                    <group class="oe_right oe_form_group">
+                        <field name="Freebee_Quantity" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                        <field name="corresspondents_copies" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                        <field name="office_copies" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                        <field name="total_copies" attrs="{'invisible':[('is_zone', '!=', True)]}"/>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='company_type']" position="after">
+                <!--                attrs="{'invisible':['|','|',('is_newsprint_agent','=',True),('is_zone','=',True),('is_additions','=',True)]}"-->
+                <group class="oe_left oe_form_group">
+                    <field name="is_printing_unit" options="{'horizontal': true}"
+                           attrs="{'invisible':[('is_printing_unit','!=',True)]}"/>
+                    <!--                attrs="{'invisible':['|','|',('is_newsprint_agent','=',True),('is_zone','=',True),('is_additions','=',True)]}"-->
+                    <field name="is_newsprint_agent" invisible="1"/>
+                    <!--                <lable attrs="{'invisible':[('is_printing_unit','!=',True)]}">-->
+                    <!--                    <strong>Newprint Unit</strong>-->
+                    <!--                </lable>-->
+
+                    <field name="unit_ref" options="{'horizontal': true}"
+                           attrs="{'invisible':[('is_printing_unit','!=',True)]}"/>
+                    <field name="unit_location" options="{'horizontal': true}"
+                           attrs="{'invisible':[('is_printing_unit','!=',True)]}"/>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']" position="before">
+                <page string="Circulation Copies Details" name="circulation_copies_details" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}">
+                    <group class="oe_left oe_form_group">
+                        <field name="agent_code" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                        <field name="f_q_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                        <field name="n_q_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                        <field name="p_q_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                    </group>
+                    <group class="oe_right oe_form_group">
+                        <field name="v_q_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                        <field name="pr_q_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                        <field name="c_c_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                        <field name="o_q_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                        <field name="t_c_zone" attrs="{'invisible':[('is_newsprint_agent','!=',True)]}"/>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//notebook/page[@name='contact_addresses']" position="before">
+                <page string="Circulation Demand" name="add_zones_to_line"
+                      attrs="{'invisible':[('is_zone','!=',True)]}">
+                    <field name="add_zones_to_line">
+                        <!--                        editable="bottom"-->
+                        <!--                        for additionsssssssssssss-->
+                        <tree create="0">
+                            <field name="zones_zone" invisible="1"/>
+                            <field name="cc_zone"/>
+                            <!--                            <field name="newspaper_date_zone"/>-->
+                            <!--                            may 18 9 required-->
+                            <field name="newspaper_quantity_zone" sum="Total"/>
+
+                            <field name="Postal_copies_zone" sum="Total"/>
+                            <field name="voucher_copies_zone" sum="Total"/>
+                            <field name="promotional_copies_zone" sum="Total"/>
+                            <field name="Freebee_Quantity_zone" sum="Total"/>
+                            <field name="corresspondents_copies_zone" sum="Total"/>
+                            <field name="office_copies_zone" sum="Total"/>
+                            <field name="total_copies_zone" sum="Total"/>
+
+                        </tree>
+                    </field>
+                </page>
+                <!--                attrs="{'invisible':[('is_printing_unit','!=',True)]}"-->
+                <!--                #need to be change newly added may 19 n-->
+                <page string="Serviced Editions" name="service_regions"
+                      attrs="{'invisible':[('is_printing_unit','!=',True)]}">
+                    <group>
+                        <field name="servie_regions" widget="many2many_tags"/>
+                    </group>
+                    <!--                        <tree editable="bottom">-->
+                    <!--                            &lt;!&ndash;                            <field name="parent_id"/>&ndash;&gt;-->
+                    <!--                            <field name="servie_regions" string="Regions"/>-->
+                    <!--                        </tree>-->
+                    <!--                    </field>-->
+                </page>
+                <page string="Types Of Mains" name="unit_mains" attrs="{'invisible':[('is_printing_unit','!=',True)]}">
+                    <field name="unit_mains_one2many">
+                        <!--                        made change on may 19 n-->
+                        <tree editable="bottom">
+                            <field name="mains_id"/>
+                            <field name="no_paper_with_ads"/>
+                            <field name="no_paper_without_ads"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+<!--            <xpath expr="//notebook/page[@name='contact_addresses']" position="attributes">-->
+<!--                <attribute name="string">Associated Agents</attribute>-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+            <!--            for additionssssssss  -->
+            <!--            <xpath expr="//notebook/page[@name='contact_addresses']" position="attributes">-->
+            <!--                <attribute name="string">Associated Zones</attribute>-->
+            <!--                <attribute name="attrs">{'invisible':[('is_district','!=',True)]}</attribute>-->
+            <!--            </xpath>-->
+            <!--            <xpath expr="//notebook/page/field[@name='child_ids']" position="attributes">-->
+            <!--                &lt;!&ndash;                <attribute name="mode">tree</attribute>&ndash;&gt;-->
+            <!--                <attribute name="context">{'default_is_zone':True}</attribute>-->
+            <!--            </xpath>-->
+            <!--            for additionssss hiding the form in child_ids-->
+            <xpath expr="//notebook/page/field[@name='child_ids']/form" position="replace">
+
+            </xpath>
+            <xpath expr="//notebook/page[@name='contact_addresses']" position="before">
+                <page name="districts" string='Districts' attrs="{'invisible':[('is_additions','!=',True)]}">
+                    <field name="district_o2m" mode="kanban" context="{'default_is_district':True}">
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <!--            for new zones-->
+            <xpath expr="//notebook/page[@name='contact_addresses']" position="before">
+                <page name="Zones" string='Associated Zone' attrs="{'invisible':[('is_district','!=',True)]}">
+                    <field name="zone_o2m" mode="kanban" context="{'default_is_zone':True}">
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <!--            Agent details-->
+            <xpath expr="//notebook/page[@name='contact_addresses']" position="before">
+                <page name="agent_details" string="Agent Details"
+                      attrs="{'invisible':[('is_newsprint_agent','!=',True)]}">
+                    <group name="g1" class="oe_left oe_form_group">
+                        <field name="unit_code"/>
+                        <field name="stop_dt"/>
+                        <field name="rt_code"/>
+                        <field name="rt_place"/>
+                        <field name="std_code"/>
+                        <field name="dt_app"/>
+                        <field name="district_code"/>
+                        <field name="district_name"/>
+                        <field name="division_code"/>
+                        <field name="division_name"/>
+                        <field name="mandal_no"/>
+                        <field name="mandal_name"/>
+                        <field name="ee_stat"/>
+                    </group>
+                    <group name="g2" class="oe_right oe_form_group">
+                        <field name="constituency_code"/>
+                        <field name="constituency_name"/>
+                        <field name="edn_code"/>
+                        <field name="edn_name"/>
+                        <field name="dpr_code"/>
+                        <field name="dpr_name"/>
+                        <field name="main_code"/>
+                        <field name="tsp_code"/>
+                        <field name="dc_code"/>
+                        <field name="sub_code"/>
+                        <field name="ssb_code"/>
+                        <field name="from_place"/>
+                        <field name="to_place"/>
+                        <field name="pm_code"/>
+                        <field name="deposit_interest"/>
+                    </group>
+
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='is_newsprint_agent']" position="attributes">
+                <attribute name="attrs">{'invisible':[('is_newsprint_agent','!=',True)]}
+                </attribute>
+                <!--                {'invisible': ['|','|',('is_clearing_agent', '=', True),('is_printing_unit',-->
+                <!--                    '=',-->
+                <!--                    True),('is_zone','=',True)]}-->
+            </xpath>
+            <xpath expr="//field[@name='is_clearing_agent']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|','|',('is_newsprint_agent', '=',
+                    True),('is_printing_unit',
+                    '=',
+                    True),('is_zone','=',True),('is_additions','=',True)]}
+                </attribute>
+            </xpath>
+
+
+        </field>
+    </record>
+
+    <record id="res_partner_tree_zone" model="ir.ui.view">
+        <field name="name">res.partner.tree.inheritance</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="is_newsprint_agent" invisible="1"/>
+                <field name="agent_code"/>
+                <field name="name"/>
+                <field name="f_q_zone"/>
+                <field name="n_q_zone"/>
+                <field name="p_q_zone"/>
+                <field name="v_q_zone"/>
+                <field name="pr_q_zone"/>
+                <field name="c_c_zone"/>
+                <field name="o_q_zone"/>
+                <field name="t_c_zone"/>
+<!--                <field name="state" widget="badge" decoration-success="state=='active'"-->
+<!--                       decoration-danger="state=='inactive'"/>-->
+
+            </tree>
+        </field>
+    </record>
+    <record id="res_partner_tree_printing_unit" model="ir.ui.view">
+        <field name="name">res.partner.tree.inheritance</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="is_newsprint_agent" invisible="1"/>
+                <field name="unit_ref"/>
+                <field name="short_code_unit"/>
+                <field name="unit_location"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="email"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id='region_zon_tree_view'>
+        <field name="name">Agents</field>
+        <field name="model">region.zone</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="Zone_Name" invisible="1"/>
+                <field name="agent_code"/>
+                <field name="cc_zone"/>
+                <field name="partner_agent" widget="many2many_tags"/>
+                <field name="newspaper_quantity"/>
+                <field name="Postal_copies"/>
+                <field name="voucher_copies"/>
+                <field name="promotional_copies"/>
+                <field name="Freebee_Quantity"/>
+                <field name="corresspondents_copies"/>
+                <field name="office_copies"/>
+                <field name="total_copies"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="region_zone_action" model="ir.actions.act_window">
+        <field name="name">Newspaper Agents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">region.zone</field>
+        <field name="view_mode">tree,form</field>
+        <!--        <field name="domain">[('Zone_Name','!=',False)]</field>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                <h1>Create Regions</h1>
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id='units_mains_tree_view'>
+        <field name="name">units.mains</field>
+        <field name="model">unit.mains</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name"/>
+                <field name="no_paper_with_ads"/>
+                <field name="no_paper_without_ads"/>
+            </tree>
+        </field>
+    </record>
+    <record id="units_mains_action" model="ir.actions.act_window">
+        <field name="name">Units Main</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">unit.mains</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                <h1>Create Regions</h1>
+            </p>
+        </field>
+    </record>
+
+    <record id="Printing_units_action" model="ir.actions.act_window">
+        <field name="name">Printing Units</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="res_partner_tree_printing_unit"/>
+        <field name="domain">[('is_printing_unit','=',True)]</field>
+        <field name="context">{'default_is_printing_unit':True,'default_is_company':True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                <h1>Create Printing Units</h1>
+            </p>
+        </field>
+    </record>
+
+
+    <!--    child_ids from view inherite-->
+    <!--    <record id="res_partner_form_view" model="ir.ui.view">-->
+    <!--        <field name="name">res.partner.form.view.inherited</field>-->
+    <!--        <field name="model">res.partner</field>-->
+    <!--        <field name="inherit_id" ref="base.view_partner_form"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//field[@name='child_ids']/form/sheet/group/group/field[@name='name']" position="after">-->
+    <!--                <field name="is_newsprint_agent" default="0"/>-->
+    <!--                <field name="is_printing_unit" default="0" invisible="1"/>-->
+    <!--            </xpath>-->
+
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    hiding the fields in agent and printing units-->
+    <record id="res_partner_form_view_field_invisible" model="ir.ui.view">
+        <field name="name">res.partner.form.view.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='function']" position="attributes">
+
+                <attribute name="attrs">
+                    {'invisible':['|','|','|','|',('is_newsprint_agent','=',True),('is_printing_unit','=',True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='website']" position="attributes">
+
+                <attribute name="attrs">
+                    {'invisible':['|','|','|','|',('is_newsprint_agent','=',True),('is_printing_unit','=',True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="attributes">
+
+                <attribute name="attrs">
+                    {'invisible':['|','|','|','|',('is_newsprint_agent','=',True),('is_printing_unit','=',True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='title']" position="attributes">
+
+                <attribute name="attrs">
+                    {'invisible':['|','|','|','|',('is_newsprint_agent','=',True),('is_printing_unit','=',True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+            </xpath>
+<!--            <xpath expr="//page[@name='sales_purchases']" position="attributes">-->
+
+<!--                <attribute name="attrs">-->
+<!--                    {'invisible':['|','|','|','|',('is_newsprint_agent','=',True),('is_printing_unit','=',True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}-->
+<!--                </attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='company_type']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|','|','|',('is_newsprint_agent', '=',
+                    True),('is_printing_unit','=',True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+
+            </xpath>
+            <xpath expr="//page[@name='followup_tab']" position="attributes">
+
+                <attribute name="attrs">
+                    {'invisible':['|','|','|','|',('is_newsprint_agent','=',True),('is_printing_unit','=',True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="res_partner_form_custom_purchase" model="ir.ui.view">
+        <field name="name">res.partner.inheritance</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="custom_purchase.view_res_partner_agents_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_newsprint_agent']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|','|','|',('is_clearing_agent', '=',
+                    True),('is_printing_unit',
+                    '=',
+                    True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='is_clearing_agent']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|','|','|',('is_newsprint_agent', '=',
+                    True),('is_printing_unit',
+                    '=',
+                    True),('is_zone','=',True),('is_additions','=',True),('is_district','=',True)]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vehicles_count_smart_button" model="ir.ui.view">
+        <field name="name">vehicle.count.smart.button.inheritance</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_partner_invoices']" position="before">
+                <button name="vehicles_count" type="object" class="oe_stat_button" icon="fa-car"
+                        attrs="{'invisible': [('is_printing_unit', '!=', True)]}">
+                    <field name="vehicle_count" widget="statinfo" string="Vehicles"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

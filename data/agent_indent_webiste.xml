@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--    <template id="portal_my_home_menu_agent_indent" name="Portal layout : sales menu entries"-->
+    <!--              inherit_id="portal.portal_breadcrumbs" priority="20">-->
+    <!--        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">-->
+    <!--            <li t-attf-class="breadcrumb-item #{'active ' if not agents_dict else ''}">-->
+    <!--                <a t-if="agents_dict" t-attf-href="">Agent Indent</a>-->
+    <!--                <t t-else="">Agent Indent</t>-->
+    <!--            </li>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+
+    <template id="portal_my_home_agent_indent" name="Agent Indent" customize_show="True"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Agent Indents</t>
+                <t t-set="url" t-value="'/agent_indent'"/>
+                <t t-set="placeholder_count" t-value="'indent_count'"/>
+
+            </t>
+        </xpath>
+    </template>
+
+
+    <!--    <record id="website_menu_agent_indent" model="website.menu">-->
+    <!--        <field name="name">Agent Indent</field>-->
+    <!--        <field name="url" eval="'/agent_indent'"/>-->
+    <!--        <field name="parent_id" ref="website.main_menu"/>-->
+    <!--        <field name="sequence" type="int">1</field>-->
+    <!--    </record>-->
+
+    <template id="portal_breadcrumbs_indents" inherit_id="portal.portal_breadcrumbs" name="Agent Indents">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'agent_indent_list'" class="breadcrumb-item">Agent Indents</li>
+        </xpath>
+    </template>
+
+
+    <template id="agents_indent" name="Agent Indent">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Agent Indent</t>
+            </t>
+            <t t-call="portal.portal_table">
+                <tr class="active" style="background-color: #20ACD4; color: white;">
+                    <!--                    <th class="text-center">Agent Code</th>-->
+                    <th class="text-center">Newspaper Date</th>
+                    <th class="text-center">Agent Copies</th>
+                    <th class="text-center">Free Copies</th>
+                    <th class="text-center">Postal Copies</th>
+                    <th class="text-center">Voucher Copies</th>
+                    <th class="text-center">Correspondent's Copies</th>
+                    <th class="text-center">Office Copies</th>
+                    <th class="text-center">Promotional Copies</th>
+                </tr>
+                <tr t-foreach="agents" t-as="agents_dict">
+                    <!--                    <td class="text-center">-->
+                    <!--                        <t t-esc="agents_dict['agent_code']"/>-->
+                    <!--                    </td>-->
+                    <td class="text-center">
+                        <t t-esc="agents_dict['newspaper_date']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="agents_dict['agent_copies']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="agents_dict['free_copies']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="agents_dict['postal_copies']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="agents_dict['voucher_copies']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="agents_dict['correspondents_copies']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="agents_dict['office_copies']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="agents_dict['promotional_copies']"/>
+                    </td>
+                </tr>
+
+                <tfoot style="background-color: #20ACD4; color: white;">
+                    <tr>
+                        <td>
+                            <span style="font-weight: bold;">Total Copies</span>
+                        </td>
+                        <tr t-foreach="agents" t-as="agents_dict">
+                            <td class="text-center">
+                                <strong>
+                                    <t t-esc="agents_dict['total_agent_copies']"/>
+                                </strong>
+                            </td>
+                            <td class="text-center">
+                                <strong>
+                                    <t t-esc="agents_dict['total_free_copies']"/>
+                                </strong>
+                            </td>
+                            <td class="text-center">
+                                <strong>
+                                    <t t-esc="agents_dict['total_postal_copies']"/>
+                                </strong>
+                            </td>
+                            <td class="text-center">
+                                <strong>
+                                    <t t-esc="agents_dict['total_voucher_copies']"/>
+                                </strong>
+                            </td>
+                            <td class="text-center">
+                                <strong>
+                                    <t t-esc="agents_dict['total_correspondents_copies']"/>
+                                </strong>
+                            </td>
+                            <td class="text-center">
+                                <strong>
+                                    <t t-esc="agents_dict['total_office_copies']"/>
+                                </strong>
+                            </td>
+                            <td class="text-center">
+                                <strong>
+                                    <t t-esc="agents_dict['total_promotional_copies']"/>
+                                </strong>
+                            </td>
+                        </tr>
+                    </tr>
+                </tfoot>
+            </t>
+        </t>
+    </template>
+
+
+    <template id="website_indent_form_view_portal">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <t t-if="page_name == 'indent_from_view'">
+                <p t-out="indent.name"/>
+                <p t-out="indent.order_id.name"/>
+                <p t-out="indent.product_uom_qty"/>
+                <!--                <p t-out="indent.qty_delivery"/>-->
+            </t>
+        </xpath>
+    </template>
+
+
+</odoo>

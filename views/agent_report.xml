@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record model="ir.actions.act_window" id="contact_report">
+        <field name="name">Report Summary</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">contact.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p id="view_no_content">
+                Agent reports
+            </p>
+        </field>
+    </record>
+
+    <record id="contact_reports_tree" model="ir.ui.view">
+        <field name="name">contact.reports.tree</field>
+        <field name="model">contact.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="agent" readonly="1"/>
+                <field name="source" invisible="1"/>
+                <field name="account_move" readonly="1"/>
+                <field name="credit_note" readonly="1"/>
+                <field name="stock_picking" readonly="1"/>
+                <field name="newspaper" readonly="1"/>
+<!--                <field name="lot_id"/>-->
+                <field name="lot_idds"/>
+                <field name="news_qty" readonly="1"/>
+                <field name="magazine" readonly="1"/>
+                <field name="special_qty" readonly="1"/>
+                <field name="total" readonly="1"/>
+                <field name="stock_picking_return" readonly="1"/>
+                <field name="return_date" readonly="1"/>
+                <field name="newspaper_return_qty" readonly="1"/>
+                <field name="magazine_return_qty" readonly="1"/>
+                <field name="sp_return_qty" readonly="1"/>
+                <field name="total_return" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="contact_reports_form" model="ir.ui.view">
+        <field name="name">contact.reports.tree</field>
+        <field name="model">contact.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="agent" readonly="1"/>
+                    </group>
+                    <group name="credit_note" string="Credit Note" class="oe_left oe_form_group">
+                        <field name="account_move" readonly="1"/>
+                        <field name="credit_note" readonly="1"/>
+                        <field name="source" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page name="delivary_group" string="Delivery Details">
+                            <group>
+                                <field name="stock_picking" readonly="1"/>
+                                <field name="newspaper" readonly="1"/>
+                                <field name="lot_id" readonly="1"/>
+                                <field name="lot_idds" readonly="1"/>
+                                <field name="news_qty" readonly="1"/>
+                                <field name="magazine" readonly="1"/>
+                                <field name="special_qty" readonly="1"/>
+                                <field name="total" readonly="1"/>
+                            </group>
+                        </page>
+                        <page name="returns" string="Return Details">
+                            <group>
+                                <field name="stock_picking_return" readonly="1"/>
+<!--                                <field name="stock_retuns_ids">-->
+<!--                                    <tree>-->
+<!--                                        <field name="id"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+                                <field name="return_date" readonly="1"/>
+                                <field name="lot_id" readonly="1"/>
+                                <field name="lot_idds" readonly="1"/>
+                                <field name="newspaper_return_qty" readonly="1"/>
+                                <field name="magazine_return_qty" readonly="1"/>
+                                <field name="sp_return_qty" readonly="1"/>
+                                <field name="total_return" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="action_agent_summary_credit_note">
+        <field name="name">Credit Note</field>
+        <field name="model_id" ref="model_contact_report"/>
+        <field name="binding_model_id" ref="model_contact_report"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                total = 0
+                ret = []
+                for rec in records:
+                    total += rec.total_return
+                    agent = rec.agent
+                    ret.append(rec.stock_picking.id)
+                    if not rec.stock_picking_return:
+                        raise UserError("Return have been not done")
+                    if rec.credit_note == True :
+                        raise UserError("Credit Note is Done")
+                action = records.action_account_payment(total,agent,ret)
+        </field>
+    </record>
+</odoo>

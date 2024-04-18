@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <record model="ir.actions.act_window" id="return_request_action">
+        <field name="name">Return Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">return.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p id="view_no_content">
+                Demand Request
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="return_request_list_action">
+        <field name="name">Return Request History</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">return.request</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p id="view_no_content">
+                Demand Request
+            </p>
+        </field>
+    </record>
+
+    <record id="return_request_tree" model="ir.ui.view">
+        <field name="name">Return Request</field>
+        <field name="model">return.request</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="agent_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="return_request_form" model="ir.ui.view">
+        <field name="name">Return Request Form</field>
+        <field name="model">return.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!--                    <button name="schedular_for_approval" type="object" string="schedular"/>-->
+                    <!--                    <button name="action_approve" type="object" string="Approve"-->
+                    <!--                            attrs="{'invisible':[('state','!=','waiting')]}"/>-->
+                    <button name="credit_note" type="object" string='Credit Note'
+                           groups="sales_circulation.group_return_credit_note"/>
+                    <button name="return_request_schedule" type="object" string='Schedule'
+                            />
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,waiting,approved,news_paper_received,credit_note_done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="view_credit_note" type="object" class="oe_stat_button" icon="fa-cogs"
+                                attrs="{'invisible': [('credit_note_count', '=', 0)]}">
+                            <field name="credit_note_count" widget="statinfo" string="Credit Note Count"/>
+                        </button>
+                    </div>
+                    <group class="oe_left oe_form_group">
+                        <field name="agent_id" required="1"/>
+                    </group>
+                    <group class="oe_right oe_form_group">
+                        <label for='from_date' string="Month Period"/>
+                        <div>
+                            From
+                            <field name='from_date' style="width:40%" required="1"/>
+                            To
+                            <field name='to_date' style="width:40%" required="1"/>
+                        </div>
+                        <!--                        <field name="product__magazine_id"/>-->
+                    </group>
+                    <notebook>
+                        <page name="return_request_line" string="Return Lines">
+                            <group>
+                                <field name="select_list"/>
+                            </group>
+                            <newline/>
+                            <field name="return_request_line">
+                                <tree editable="bottom" create="true" id="return_lines_list_view">
+                                    <field name="select"/>
+                                    <field name="date"/>
+                                    <field name="product_type"/>
+                                    <field name="return_type"/>
+                                    <field name="no_of_copies"/>
+                                    <field name="weight"/>
+                                    <field name="is_credit_done"/>
+                                    <field name="state"/>
+                                    <button name="send_return_request_mail" type="object"
+                                            string="Send for Return Request" class="btn-warning"
+                                            attrs="{'invisible':[('state','!=','new')]}"/>
+
+                                    <button name="approve_return_request" type="object" string="Approve"
+                                            class="btn-info" groups="sales_circulation.group_dc_approve"
+                                            attrs="{'invisible':[('state','!=','waiting')]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_product_return" model="ir.ui.view">
+        <field name="name">Product Return</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_ok']" position="before">
+                <span class="d-inline-block">
+                    <field name="is_return"/>
+                    <label for="is_return"/>
+                </span>
+            </xpath>
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="return_type"/>
+                <field name="unit_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_template_return" model="ir.ui.view">
+        <field name="name">Product Template Return</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_ok']" position="before">
+                <span class="d-inline-block">
+                    <field name="is_return"/>
+                    <label for="is_return"/>
+                    <field name="is_transportation"/>
+                    <label for="is_transportation"/>
+                </span>
+            </xpath>
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="return_type"/>
+                <field name="unit_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_location_return_unit" model="ir.ui.view">
+        <field name="name">Stock Return Unit</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scrap_location']" position="after">
+                <field name="unit_id"/>
+                <field name="is_partner_location"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_return_stock_picking_type" model="ir.ui.view">
+        <field name="name">Stock Picking Type Return</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='show_operations']" position="after">
+                <field name="is_return_picking_type"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_return_request_new" model="ir.actions.act_window">
+        <field name="name">Return Request New</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">return.request</field>
+        <field name="domain">[('state','=','new')]</field>
+    </record>
+
+    <record id="action_return_request_waiting" model="ir.actions.act_window">
+        <field name="name">Return Request Waiting</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">return.request</field>
+        <field name="domain">[('state','=','waiting')]</field>
+    </record>
+
+    <record id="action_return_request_approved" model="ir.actions.act_window">
+        <field name="name">Return Request Approved</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">return.request</field>
+        <field name="domain">[('state','=','approved')]</field>
+    </record>
+
+    <record id="action_return_request_news_paper_received" model="ir.actions.act_window">
+        <field name="name">Return Request New Paper Received</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">return.request</field>
+        <field name="domain">[('state','=','news_paper_received')]</field>
+    </record>
+
+    <record id="action_return_request_credit_note_done" model="ir.actions.act_window">
+        <field name="name">Return Request Credit Note Done</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">return.request</field>
+        <field name="domain">[('state','=','credit_note_done')]</field>
+    </record>
+
+    <menuitem id="circulation_return_request"
+              name="Sales Return Request"
+              parent="circulation_main_menu"
+              sequence="5"
+    />
+    <menuitem id="circulation_return_request_new"
+              name="New"
+              parent="circulation_return_request"
+              sequence="1"
+              action="action_return_request_new"
+    />
+    <menuitem id="circulation_return_request_waiting"
+              name="Waiting"
+              parent="circulation_return_request"
+              sequence="2"
+              action="action_return_request_waiting"
+    />
+    <menuitem id="circulation_return_request_approved"
+              name="Approved"
+              parent="circulation_return_request"
+              sequence="3"
+              action="action_return_request_approved"
+    />
+    <menuitem id="circulation_return_request_news_paper_received"
+              name="News Paper Received"
+              parent="circulation_return_request"
+              sequence="3"
+              action="action_return_request_news_paper_received"
+    />
+    <menuitem id="circulation_return_request_credit_note_done"
+              name="Credit Done"
+              parent="circulation_return_request"
+              sequence="3"
+              action="action_return_request_credit_note_done"
+    />
+
+    <menuitem id="circulation_return_request_history"
+              name="Sales Return History"
+              parent="circulation_return_request"
+              sequence="6"
+              action="return_request_list_action"
+    />
+
+
+
+<!--    <record id="action_return_request_select_records" model="ir.actions.server">-->
+<!--        <field name="name">Select Records</field>-->
+<!--        <field name="model_id" ref="model_return_request"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">-->
+<!--            active_ids = self.env.context.get('active_ids', [])-->
+<!--            action = self.env['return.request.line'].browse(active_ids)-->
+<!--            action.write({'select': True})-->
+<!--            return True-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <act_window-->
+<!--            id="action_return_request_line_select_records_window"-->
+<!--            name="Select Records"-->
+<!--            res_model="return.request.line"-->
+<!--            view_mode="tree"-->
+<!--            target="new"-->
+<!--            context="{'active_model': 'return.request.line', 'active_ids': active_ids}"-->
+<!--    />-->
+
+<!--    <record id="return_request_line_list_button" model="ir.ui.view">-->
+<!--        <field name="name">return.request.line.button</field>-->
+<!--        <field name="model">return.request.line</field>-->
+<!--        <field name="inherit_id" ref="sales_circulation.return_lines_list_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//header" position="inside">-->
+<!--                <button string="Select Records" name="%(action_return_request_line_select_records_window)d" type="object"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="return_request_line_list_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Return Request Line List</field>-->
+<!--        <field name="res_model">return.request.line</field>-->
+<!--        <field name="view_mode">tree</field>-->
+<!--        <field name="view_id" ref="sales_circulation.return_lines_list_view"/>-->
+<!--    </record>-->
+
+    <!--    <record id="ir_cron_for_demand_request" model="ir.cron">-->
+    <!--        <field name="name">Demand Request Approval</field>-->
+    <!--        <field name="model_id" ref="model_demand_request"/>-->
+    <!--        <field name="state">code</field>-->
+    <!--        <field name="code">model.schedular_for_approval()</field>-->
+    <!--&lt;!&ndash;        <field name="user_id" ref="base.user_root"/>&ndash;&gt;-->
+    <!--        <field name="interval_number">1</field>-->
+    <!--        <field name="interval_type">days</field>-->
+    <!--        <field name="numbercall">-1</field>-->
+    <!--        <field name="doall" eval="False"/>-->
+    <!--    </record>-->
+
+</odoo>

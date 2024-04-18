@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <record model="ir.module.category" id="module_category_circulation">
+        <field name="name">Circulation</field>
+        <field name="sequence">11</field>
+    </record>
+
+    <record id="group_sales_circulation_agent" model="res.groups">
+        <field name="name">Agent</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_agent_indent" model="res.groups">
+        <field name="name">Agent Indent</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_segment_incharge" model="res.groups">
+        <field name="name">Segment Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_circulation_incharge" model="res.groups">
+        <field name="name">Circulation Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_staff_deposit" model="res.groups">
+        <field name="name">Circulation Staff-Deposit</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_staff_billing" model="res.groups">
+        <field name="name">Circulation Staff-Billing</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_unit_manager" model="res.groups">
+        <field name="name">Unit Manger</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_admin" model="res.groups">
+        <field name="name">Circulation Admin</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_marketing" model="res.groups">
+        <field name="name">Circulation Marketing</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_billing" model="res.groups">
+        <field name="name">Circulation Billing</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+    <record id="group_sales_circulation_head" model="res.groups">
+        <field name="name">Circulation Head</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_circulation" />
+    </record>
+
+
+    <record id="sales_circulation_segment_incharge_rule" model="ir.rule">
+        <field name="name">Segment Incharge Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_segment_incharge')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="False" />
+        <field name="domain_force">[('user_id', 'in', user.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_circulation_incharge_rule" model="ir.rule">
+        <field name="name">Circulation Incharge Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_circulation_incharge')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="False" />
+        <field name="domain_force">['|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_staff_deposit_rule" model="ir.rule">
+        <field name="name">Staff Deposit Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_staff_deposit')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_unlink" eval="False" />
+        <field name="domain_force">['|','|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_staff_billing_rule" model="ir.rule">
+        <field name="name">Staff Billing Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_staff_billing')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_unlink" eval="False" />
+        <field name="domain_force">['|','|','|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_unit_manager_rule" model="ir.rule">
+        <field name="name">Unit Manager Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_unit_manager')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="domain_force">['|','|','|','|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_admin_rule" model="ir.rule">
+        <field name="name">Circulation Admin Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_admin')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="domain_force">['|','|','|','|','|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_marketing_rule" model="ir.rule">
+        <field name="name">Circulation Marketing Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_marketing')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="domain_force">['|','|','|','|','|','|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_billing_rule" model="ir.rule">
+        <field name="name">Circulation Billing Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_billing')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="domain_force">['|','|','|','|','|','|','|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record id="sales_circulation_head_rule" model="ir.rule">
+        <field name="name">Circulation Head Rule</field>
+        <field name="model_id" ref="model_sale_order" />
+        <field name="groups" eval="[(6,0, [ref('group_sales_circulation_head')])]" />
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="domain_force">['|','|','|','|','|','|','|','|',('user_id', 'in', user.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids),('user_id','in',user.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.partner_id.segment_agents.ids)]</field>
+    </record>
+
+    <record model="ir.module.category" id="module_category_sales_return">
+        <field name="name">Sales Return Access</field>
+        <field name="sequence">12</field>
+    </record>
+
+    <record id="group_dc_approve" model="res.groups">
+        <field name="name">Return Approve</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_sales_return" />
+    </record>
+
+    <record id="group_return_credit_note" model="res.groups">
+        <field name="name">Credit Approve</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_sales_return" />
+    </record>
+
+    <record model="ir.module.category" id="module_category_demand_request">
+        <field name="name">Demand Request Access</field>
+        <field name="sequence">12</field>
+    </record>
+
+    <record id="group_demand_approve" model="res.groups">
+        <field name="name">Demand Approve</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_demand_request" />
+    </record>
+
+    <record id="group_demand_reject" model="res.groups">
+        <field name="name">Reject Approve</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="category_id" ref="module_category_demand_request" />
+    </record>
+
+    <!--    dispatch incharge-->
+    <record id="group_sales_circulation_dispatch_incharge" model="res.groups">
+        <field name="name">Dispatch Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="module_category_circulation"/>
+    </record>
+
+<!--    mrp incharge-->
+    <record id="group_sales_circulation_mrp_incharge" model="res.groups">
+        <field name="name">MRP Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="module_category_circulation"/>
+    </record>
+
+
+
+
+</odoo>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <record model="ir.actions.act_window" id="demand_request_action">
+        <field name="name">Demand Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">demand.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p id="view_no_content">
+                Demand Request
+            </p>
+        </field>
+    </record>
+
+    <record id="demand_request_tree" model="ir.ui.view">
+        <field name="name">Demand Request</field>
+        <field name="model">demand.request</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="Agent_id"/>
+                <field name="Agent_copies" class="text-center"/>
+                <field name="selection_field"/>
+                <field name="specific_date"/>
+                <field name="demand_changes" class="text-center"/>
+                <field name="total_copies"/>
+                <field name="demand_state" decoration-success="demand_state=='increase'"
+                       decoration-danger="demand_state=='decrease'" widget="badge"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="demand_request_form" model="ir.ui.view">
+        <field name="name">Demand Request</field>
+        <field name="model">demand.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="schedular_for_approval" type="object" string="schedular"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            attrs="{'invisible':[('state','!=','waiting')]}" groups="sales_circulation.group_demand_approve"/>
+                    <button name="state_waiting" type="object" string='Send for approval'
+                            attrs="{'invisible':[('state','!=','new')]}"/>
+                    <button name="action_reject" type="object" string='Reject' class="btn-danger"
+                            attrs="{'invisible':[('state','not in',['approved', 'waiting'])]}" groups="sales_circulation.group_demand_reject"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,waiting,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group id="header_left_group">
+                            <field name="Agent_id" required="1" attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="unit_id" readonly="1" force_save="1"/>
+                            <field name="Agent_copies" readonly="1" force_save="1"/>
+                            <field name="selection_field" required="1" attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="specific_date"
+                                   attrs="{'invisible':[('selection_field','!=','specific_date')],'required':[('selection_field','=','specific_date')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="selection_additional_type"
+                                   attrs="{'invisible':[('selection_field','!=','specific_date')],'required':[('selection_field','=','specific_date')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="no_of_additional_copies"
+                                   attrs="{'invisible':[('selection_additional_type','!=','increase_additional')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="decrease_additional_copies"
+                                   attrs="{'invisible':[('selection_additional_type','!=','decrease_additional')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="permanent_date"
+                                   attrs="{'invisible':[('selection_field','!=','permanent')],'required':[('selection_field','=','permanent')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="selection_update_agent_copies"
+                                   attrs="{'invisible':[('selection_field','!=','permanent')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="update_agent_copies"
+                                   attrs="{'invisible':[('selection_update_agent_copies','!=','increase')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="decrease_agent_copies"
+                                   attrs="{'invisible':[('selection_update_agent_copies','!=','decrease')],
+                                   'readonly':[('state','!=','new')]}"/>
+                            <field name="reject_reason"
+                                   attrs="{'invisible':[('state','not in',['waiting', 'rejected'])],
+                                   'readonly':[('state','!=','waiting')]}"
+                                   placeholder="e.g. user need to , check if it's reject, ..."/>
+                            <field name="total_copies" readonly="1" force_save="1"/>
+                        </group>
+                        <group id="header_right_group">
+                            <field name="free_copies" readonly="1" force_save="1"/>
+                            <field name="postal_copies" readonly="1" force_save="1"/>
+                            <field name="voucher_copies" readonly="1" force_save="1"/>
+                            <field name="promotional_copies" readonly="1" force_save="1"/>
+                            <field name="correspondents_copies" readonly="1" force_save="1"/>
+                            <field name="office_copies" readonly="1" force_save="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_demand_new" model="ir.actions.act_window">
+        <field name="name">Demand New</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">demand.request</field>
+        <field name="domain">[('state','=','new')]</field>
+    </record>
+
+    <record id="action_demand_waiting" model="ir.actions.act_window">
+        <field name="name">Demand Waiting</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">demand.request</field>
+        <field name="domain">[('state','=','waiting')]</field>
+    </record>
+
+    <record id="action_demand_approved" model="ir.actions.act_window">
+        <field name="name">Demand Approved</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">demand.request</field>
+        <field name="domain">[('state','=','approved')]</field>
+    </record>
+
+    <record id="action_demand_rejected" model="ir.actions.act_window">
+        <field name="name">Demand Rejected</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">demand.request</field>
+        <field name="domain">[('state','=','rejected')]</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="demand_request_tree_action">
+        <field name="name">Demand Request History</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">demand.request</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p id="view_no_content">
+                Demand Request
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="circulation_demand_request"
+              name="Demand Request"
+              parent="circulation_main_menu"
+              sequence="4"
+    />
+    <menuitem id="circulation_demand_request_new"
+              name="New"
+              parent="circulation_demand_request"
+              sequence="1"
+              action="action_demand_new"
+    />
+    <menuitem id="circulation_demand_request_waiting"
+              name="Waiting"
+              parent="circulation_demand_request"
+              sequence="2"
+              action="action_demand_waiting"
+    />
+    <menuitem id="circulation_demand_request_approved"
+              name="Approved"
+              parent="circulation_demand_request"
+              sequence="3"
+              action="action_demand_approved"
+    />
+    <menuitem id="circulation_demand_request_rejected"
+              name="Rejected"
+              parent="circulation_demand_request"
+              sequence="4"
+              action="action_demand_rejected"
+    />
+
+    <menuitem id="circulation_demand_request_history"
+              name="Demand History"
+              parent="circulation_demand_request"
+              sequence="4"
+              action="demand_request_tree_action"
+    />
+
+    <record id="ir_cron_for_demand_request" model="ir.cron">
+        <field name="name">Demand Request Approval</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="state">code</field>
+        <field name="code">model.schedular_for_approval()</field>
+<!--        <field name="user_id" ref="base.user_root"/>-->
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+</odoo>

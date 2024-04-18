@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="website_demand_request_form" name="Demand Request">
+        <t t-call="website.layout">
+            <fieldset class="inputTextWrap">
+                <legend>
+                    <h2 class="text-muted">Demand Request Form</h2>
+                </legend>
+                <form class="form" action="/send_for_approval" method="post" enctype="multipart/form-data"
+                      data-model_name=""
+                      data-success-page="">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"
+                           t-nocache="The csrf token must always be up to date."/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="spacer_row"/>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Agent Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <t t-esc="agent_name"/>
+                                </div>
+                            </div>
+                            <div class="spacer_row"/>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Agent Current Copies</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <t t-esc="agent_copies"/>
+                                </div>
+                            </div>
+                            <div class="spacer_row"/>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Demand Type</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <select id="result" name="selection_field"
+                                            class="form-control s_website_form_input" required="1">
+                                        <option value="">Select an option</option>
+                                        <option value="specific_date">Specific date</option>
+                                        <option value="permanent">Permanent</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spacer_row"/>
+
+                        <div class="col-lg-12" id="permanent" style="display:none">
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Permanent Date</label>
+                                </div>
+                                <div class="col-lg-5">
+                                    <input class="form-control s_website_form_input" type="date"
+                                           id="permanent_date" name="permanent_date"/>
+                                </div>
+                                <div class="spacer_row"/>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Demand Update Type</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <select id="copies" name="selection_update_agent_copies"
+                                            class="form-control s_website_form_input">
+                                        <option value="">Select an option</option>
+                                        <option value="increase">Increase Copies</option>
+                                        <option value="decrease">Decrease Copies</option>
+                                    </select>
+                                </div>
+                                <div class="spacer_row"/>
+                                <div class="col-lg-12" id="increase" style="display:none">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label>Increase Agent Copies</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <input class="form-control s_website_form_input" type="text"
+                                                   id="update_agent_copies" name="update_agent_copies"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer_row"/>
+                                <div class="col-lg-12" id="decrease" style="display:none">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label>Decrease Agent Copies</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <input class="form-control s_website_form_input" type="text"
+                                                   id="decrease_agent_copies" name="decrease_agent_copies"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="spacer_row"/>
+                        <div class="col-lg-12" id="specific" style="display:none">
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Specific Date</label>
+                                </div>
+                                <div class="col-lg-5">
+                                    <input class="form-control s_website_form_input" type="date"
+                                           id="specific_date" name="specific_date"/>
+                                </div>
+                                <div class="spacer_row"/>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Update Demand</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <select id="additional_types" name="selection_additional_type"
+                                            class="form-control s_website_form_input">
+                                        <option value="">Select an option</option>
+                                        <option value="increase_additional">Increase of Additional Copies</option>
+                                        <option value="decrease_additional">Decrease of Additional Copies</option>
+                                    </select>
+                                </div>
+                                <div class="spacer_row"/>
+                                <div class="col-lg-12" id="increase_additional" style="display:none">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label>Increase Agent Copies</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <input class="form-control s_website_form_input" type="text"
+                                                   id="no_of_additional_copies" name="no_of_additional_copies"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer_row"/>
+                                <div class="col-lg-12" id="decrease_additional" style="display:none">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label>Decrease Agent Copies</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <input class="form-control s_website_form_input" type="text"
+                                                   id="decrease_additional_copies" name="decrease_additional_copies"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer_row"/>
+                    <div class="row">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <div data-name="Submit Button">
+                                <button type="submit" class="btn btn-primary">Send For Approval</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </fieldset>
+
+
+            <div class="container">
+
+
+            </div>
+        </t>
+    </template>
+
+
+    <template id="website_demand_request_thankyou" name="Demand Request">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="h-100 d-flex align-items-center justify-content-center">
+
+                                <h2 class="text-muted">Thank You for submitting Demand Request</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

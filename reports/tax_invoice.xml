@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="tax_invoice_report">
+            <t t-call="web.basic_layout">
+                <div t-foreach="docs" t-as="o" style="border:2px solid; height:1220px;">
+                    <h1 style="text-align:center; text-decoration:underline;">
+                        <b>TAX INVOICE</b>
+                    </h1>
+                    <h5 style="font-size:12; text-align:center;">(Original For Recipient)</h5>
+                    <body>
+                        <table style="border:1px solid white;">
+                            <th style="font-size:100%; width:25%; text-align:left;">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height:40pt;width:140pt;float:left; padding-left:10px;"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <span style="text-align:left; padding:10px">GSTNO:
+                                    <t t-esc='o.company_id.vat'/>
+                                </span>
+                            </th>
+
+                            <td style="font-size:100%; width:65%; text-align:right; padding:5px;">
+                                <b>
+                                    <t t-esc="o.company_id.name"/>
+                                </b>
+                                <br/>
+                                (Publishers of Eenadu)
+                                <br/>
+                                Reg Office:
+                                <t t-esc="o.company_id.street"/>
+                                <br/>
+                                Email:
+                                <t t-esc="o.company_id.email"/>
+                                <br/>
+                                CIN NO:
+                                <t t-esc="o.company_id.cin_emp"/>,
+                                Web:
+                                <t t-esc="o.company_id.website"/>
+                                <br/>
+                            </td>
+                        </table>
+                    </body>
+
+                    <body>
+                        <table style="width:100%; border:1px solid;">
+                            <tr>
+                                <td style="width:60%; border:1px solid; text-align:left; padding:10px">
+                                    Bill No.:
+                                    <b>
+                                        <t t-esc="o.payment_reference"></t>
+                                    </b>
+                                </td>
+                                <td style="width:40%; border:1px solid; text-align:left; padding:10px">
+                                    Bill Date:
+                                    <b>
+                                        <t t-esc="o.invoice_date"></t>
+                                    </b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:60%; border:1px solid; text-align:left; padding:10px">
+                                    <b>IRN No.:</b>
+                                </td>
+                                <td style="width:40%; border:1px solid; text-align:left; padding:10px">
+                                    <span>
+                                        <b>Act No.:</b>
+                                    </span>
+                                    <span style="padding-left:40px;">
+                                        <b>Act.Dt:</b>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </body>
+                    <br/>
+                    <span style="padding-left:10px;">Details Of Receiver/Consignee(Billed to/Shipped to)</span>
+                    <br/>
+                    <b style="padding-left:10px;">
+                        <t t-esc="o.partner_id.name"/>
+                    </b>
+                    <br/>
+                    <b style="padding-left:10px;">
+                        <t t-esc="o.partner_id.street"/>
+                    </b>
+                    <br/>
+                    <b style="padding-left:10px;">
+                        <t t-esc="o.partner_id.street2"/>
+                    </b>
+                    <br/>
+                    <b style="padding-left:10px;">
+                        <t t-esc="o.partner_id.city"/>
+                    </b>
+                    <br/>
+                    <b style="padding-left:10px;">
+                        <t t-esc="o.partner_id.state_id.name"/>
+                    </b>
+                    -
+                    <b style="padding-left:5px;">
+                        <t t-esc="o.partner_id.zip"/>
+                    </b>
+                    <br/>
+                    <b style="padding-left:10px;">
+                    </b>
+                    <br/>
+                    <span style="padding-left:10px">Place of supply:
+                        <b>
+                            <t t-esc="o.l10n_in_state_id.name"/>
+                        </b>
+                    </span>
+                    <br/>
+                    <span style="padding-left:10px">
+                        <span>State Code:
+                            <b>
+                                <t t-esc="o.partner_id.state_id.code"/>
+                            </b>
+                        </span>
+                        <span style="padding-left:10px">--Pan:
+                            <b>
+                                <t t-esc="o.partner_id.l10n_in_pan"/>
+                            </b>
+                        </span>
+                    </span>
+                    <br/>
+                    <span style="padding-left:10px">GSTN/Unique ID:
+                        <b>
+                            <t t-esc="o.partner_id.vat"/>
+                        </b>
+                    </span>
+                    <br/>
+
+                    <body>
+                        <table style="width:100%; border:1px solid;">
+                            <tr>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    Sl.No
+                                </td>
+                                <td style="width:20%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    Description of
+                                    Goods/Services
+                                </td>
+                                <td style="width:10%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    HSN/SAC Code
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px" rowspan="2">Qty
+                                </td>
+                                <td style="width:10%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    Unit
+                                </td>
+                                <td style="width:10%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    Rate(Rs)
+                                </td>
+                                <td style="width:10%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    Total
+                                </td>
+                                <td style="width:10%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    Discount
+                                </td>
+                                <td style="width:10%; border:1px solid; text-align:center; padding:5px" rowspan="2">
+                                    Taxable value
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px" colspan="2">
+                                    CGST
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px" colspan="2">
+                                    SGST
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:2px">%</td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:2px">Amt.</td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:2px">%</td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:2px">Amt.</td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    1<!--                                    <t t-esc=""/>-->
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.invoice_line_ids.name"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.invoice_line_ids.product_id.l10n_in_hsn_code"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.invoice_line_ids.quantity"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.invoice_line_ids.product_uom_id.name"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.invoice_line_ids.price_unit"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px">
+                                    <t t-esc="o.invoice_line_ids.price_subtotal"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px">
+                                    <t t-esc="o.invoice_line_ids.discount"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px">
+                                    <t t-esc="o.amount_total"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.tax_totals['groups_by_subtotal']['Untaxed Amount'][0]['tax_group_amount'] / o.tax_totals['groups_by_subtotal']['Untaxed Amount'][0]['tax_group_base_amount'] * 100"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.tax_totals['groups_by_subtotal']['Untaxed Amount'][0]['tax_group_amount']"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.tax_totals['groups_by_subtotal']['Untaxed Amount'][0]['tax_group_amount'] / o.tax_totals['groups_by_subtotal']['Untaxed Amount'][0]['tax_group_base_amount'] * 100"/>
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:8px">
+                                    <t t-esc="o.tax_totals['groups_by_subtotal']['Untaxed Amount'][1]['tax_group_amount']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px"></td>
+                                <td style="width:5%; border:1px solid; text-align:left; padding:5px" colspan="8">Amount
+                                    Of Tax Subject To
+                                    Reverse Charge
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px"></td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px"></td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px"></td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px"></td>
+                                <td style="width:5%; border:1px solid; text-align:left; padding:5px" colspan="3">Total
+                                    Invoice Value(In
+                                    Figures)
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px" colspan="9">
+                                    <b>Rs.
+                                    <t t-esc="o.amount_total"/></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:5%; border:1px solid; text-align:center; padding:5px"></td>
+                                <td style="width:5%; border:1px solid; text-align:left; padding:5px" colspan="3">Total
+                                    Invoice Value(In
+                                    words)
+                                </td>
+                                <td style="width:5%; border:1px solid; text-align:right; padding:5px" colspan="9">
+                                    <t t-esc="o.amount_to_text_custm(o.amount_total)"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </body>
+                    <p style="text-align:right; padding-right:80px; margin-right:100px;">Signature</p>
+                    <table style="width:100%; border:1px solid white;">
+                        <td style="width:60%; text-align:left;">
+                            <br/>
+                            <span>Electronic Reference Number:
+                                <b>
+                                    <t t-esc="o.payment_reference"></t>
+                                </b>
+                            </span>
+                            <br/>
+                            <span>Date:
+                                <b>
+                                    <t t-esc="o.invoice_date"></t>
+                                </b>
+                            </span>
+                        </td>
+                        <td>
+                            <span>Digitally signed by:</span>
+                            <br/>
+                            <span>Name :</span>
+                            <br/>
+                            <span>Date :</span>
+                            <br/>
+                            <span>Reason:</span>
+                        </td>
+                    </table>
+                    <hr/>
+                    <h4 style="text-align:center; text-decoration:underline;">
+                        <b>INSERTION DETAILS</b>
+                    </h4>
+                    <body>
+                        <table style="width:100%; padding:5px; border:1px solid white;">
+                            <td style="width:50%; text-align:left; padding:10px">
+                                <span>Account No:</span>
+                                <br/>
+                                <span>R O no &amp; Date:</span>
+                                <br/>
+                                <span>Size:</span>
+                            </td>
+                            <td style="width:50%; text-align:left; padding:10px">
+                                <span>Client Name:</span>
+                                <br/>
+                                <span>Rate:</span>
+                                <br/>
+                                <span>Space:</span>
+                            </td>
+                        </table>
+                        <table style="width:100%; border:1px solid;">
+                            <tr>
+                                <td style="padding:7px; border:1px solid;">Edition/Region/District</td>
+                                <td style="padding:7px; border:1px solid;">Date</td>
+                                <td style="padding:7px; border:1px solid;">Extra Space</td>
+                                <td style="padding:7px; border:1px solid;">Extra Rate</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; border:1px solid;"></td>
+                                <td style="padding:10px; border:1px solid;"></td>
+                                <td style="padding:10px; border:1px solid;"></td>
+                                <td style="padding:10px; border:1px solid;"></td>
+                            </tr>
+                        </table>
+                    </body>
+                    <span style="font-size:100%;">** Values given against "Extra Spase" and "Extra Rate" fields pertain
+                        to
+                        space utilized in excess of common size, billed at the individual Region/District rates
+                        concerned.
+                    </span>
+                    <table style="width:100%; border:1px solid;">
+                        <tr>
+                            <td style="padding:10px">
+                                <b>Remarks:TOP JACKET (J1 &amp; J2)</b>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <p style="page-break-after:always"/>
+                <div style="border:2px solid; height:1220px;">
+                    <span style="text-decoration:underline; padding:10px;">
+                        <b>Bank Details &amp; Terms and Conditions</b>
+                    </span>
+                    <body>
+                        <table style="width:100%; padding:10px; border:1px solid white;">
+                            <td style="font-size:95%; text-align:left; padding:10px;">
+                                <t t-foreach="request.env['bank.details'].search([])" t-as="bank_detail">
+                                    <span t-esc="bank_detail.bank_conditions"/>
+                                </t>
+                            </td>
+                        </table>
+                    </body>
+                    <body>
+                        <table style="width:100%; padding:10px; border:1px solid white;">
+                            <td style="font-size:95%; text-align:left; padding:10px;">
+                                <t t-foreach="request.env['bank.details'].search([])" t-as="bank_detail">
+                                    <b><span t-esc="bank_detail.web"/></b>
+                                </t>
+                            </td>
+                        </table>
+                    </body>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+

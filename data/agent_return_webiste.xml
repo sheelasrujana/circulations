@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--    <template id="portal_my_home_menu_agent_return" name="Portal layout : sales menu entries"-->
+    <!--              inherit_id="portal.portal_breadcrumbs" priority="20">-->
+    <!--        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">-->
+    <!--            <li t-attf-class="breadcrumb-item #{'active ' if not returns_dict else ''}">-->
+    <!--                <a t-if="returns_dict" t-attf-href="">Agent Return</a>-->
+    <!--                <t t-else="">Agent Return</t>-->
+    <!--            </li>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+
+    <template id="portal_my_home_agent_return" name="Agent Return" customize_show="True"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Agent Return</t>
+                <t t-set="url" t-value="'/agent_return'"/>
+                <t t-set="placeholder_count" t-value="'return_count'"/>
+
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="portal_breadcrumbs_returns" inherit_id="portal.portal_breadcrumbs" name="Agent Returns">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'agent_return_list'" class="breadcrumb-item">Agent Returns</li>
+        </xpath>
+    </template>
+
+    <!--    <record id="website_menu_agent_return" model="website.menu">-->
+    <!--        <field name="name">Agent Return</field>-->
+    <!--        <field name="url" eval="'/agent_return'"/>-->
+    <!--        <field name="parent_id" ref="website.main_menu"/>-->
+    <!--        <field name="sequence" type="int">2</field>-->
+    <!--    </record>-->
+
+    <template id="agents_return" name="Agent Return">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Agent Return</t>
+            </t>
+            <t t-call="portal.portal_table">
+                <tr class="active">
+                    <th class="text-center">Newspaper Date</th>
+                    <th class="text-center">Return Date</th>
+                    <th class="text-center">Returned Newspaper Qty</th>
+                    <th class="text-center">Returned Magazine Qty</th>
+                    <th class="text-center">Returned Special Edition Qty</th>
+                    <th class="text-center">Total Return</th>
+                    <th class="text-center">Return Status</th>
+                </tr>
+                <tr t-foreach="returns" t-as="returns_dict">
+                    <t t-set="keys" t-value="returns_dict.keys()"/>
+                    <t t-foreach="keys" t-as="key">
+                        <td class="text-center">
+                            <t t-esc="returns_dict[key]"/>
+                        </td>
+                    </t>
+                </tr>
+            </t>
+            <!--            <p t-else="">There are currently no availble Indents.</p>-->
+        </t>
+    </template>
+
+</odoo>

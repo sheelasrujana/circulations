@@ -1,0 +1,106 @@
+<odoo>
+
+    <record id="create_quotation_payment_form_views" model="ir.ui.view">
+        <field name="name">create.quotation.payment.form</field>
+        <field name="model">create.quotation.payment.duplicate</field>
+        <field name="arch" type="xml">
+            <form string="Payment">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name='payment_type' required="1" widget="radio" options="{'horizontal': True}"/>
+                            <field name='payment_amount' required="1"/>
+<!--                            <field name="order_id"/>-->
+                        </group>
+                        <group>
+                            <field name='currency_id' invisible="1"/>
+                            <field name='quotation_total_amount' readonly="1"/>
+                            <field name='remaining_amount' readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="payment_mode" required="1"/>
+                            <field name="payee_name" required="1"/>
+                            <field name="payee_mobile" required="1"/>
+                            <!--                            <field name = "sender_acc_no" -->
+                            <!--                                attrs="{-->
+                            <!--                                'invisible':[('payment_mode', 'in', ['upi','cash'])],-->
+                            <!--                                'required':[('payment_mode', 'in', ['bank','pdc'])]}"/>-->
+                            <field name="sender_acc_no"
+                                   attrs="{
+    'invisible':[('payment_mode', 'in', ['upi','cash','pdc'])],
+    'required':[('payment_mode', 'in', ['bank'])]}"/>
+                            <field name="tnx_id"
+                                   attrs="{
+                                'invisible':[('payment_mode', 'in', ['cash','pdc'])],
+                                'required':[('payment_mode', 'in', ['uip','bank'])]}"/>
+                            <field name="payment_media"
+                                   attrs="{
+                                'invisible':[('payment_mode', 'in', ['cash','bank','pdc'])],
+                                'required':[('payment_mode', '=', 'uip')]}"/>
+                            <field name="bank_name"
+                                   attrs="{
+    'invisible':[('payment_mode', '!=', 'pdc')],
+    'required':[('payment_mode', '=', 'pdc')]}"/>
+                            <field name="acc_branch_name"
+                                   attrs="{
+                                'invisible':[('payment_mode', '!=', 'pdc')],
+                                'required':[('payment_mode', '=', 'pdc')]}"/>
+                            <field name="cheque_no"
+                                   attrs="{
+                                'invisible':[('payment_mode', '!=', 'pdc')],
+                                'required':[('payment_mode', '=', 'pdc')]}"/>
+                            <field name="cheque_date"
+                                   attrs="{
+                                'invisible':[('payment_mode', '!=', 'pdc')],
+                                'required':[('payment_mode', '=', 'pdc')]}"/>
+                            <!--                            <field name = "siginig_authority" -->
+                            <!--                                attrs="{-->
+                            <!--                                'invisible':[('payment_mode', '!=', 'pdc')],-->
+                            <!--                                'required':[('payment_mode', '=', 'pdc')]}"/>-->
+                            <field name="siginig_authority" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="agent_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="payment_datetime" required="1"/>
+                            <field name="payment_location" required="1"/>
+                            <field name="utr_no"
+                                   attrs="{
+                                'invisible':[('payment_mode', 'in', ['cash','pdc'])],
+                                'required':[('payment_mode', 'in', ['uip','bank'])]}"/>
+                            <field name="payment_confirmation_file"
+                                   required="1"/>
+                            <!--                            <field name = "micr_no" -->
+                            <!--                                attrs="{-->
+                            <!--                                'invisible':[('payment_mode', '!=', 'pdc')],-->
+                            <!--                                'required':[('payment_mode', '=', 'pdc')]}"/>-->
+                            <field name="micr_no" invisible="1"/>
+                            <field name="ifsc" invisible="1"/>
+                            <!--                            <field name = "ifsc" -->
+                            <!--                                attrs="{-->
+                            <!--                                'invisible':[('payment_mode', '!=', 'pdc')],-->
+                            <!--                                'required':[('payment_mode', '=', 'pdc')]}"/>-->
+                            <field name="cheque_expiry_date"
+                                   attrs="{
+                                'invisible':[('payment_mode', '!=', 'pdc')],
+                                'required':[('payment_mode', '=', 'pdc')]}"/>
+                        </group>
+                        <!-- <field name="qr_code_image" widget="image" options="{'no_store': True}" readonly="1"/> -->
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_create_quotation_payment" string="Create" type="object"
+                            class="btn btn-sm btn-primary"/>
+                    <button string="Cancel" class="btn btn-sm btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_create_quotation_payment_invoice_view" model="ir.actions.act_window">
+        <field name="name">Pay</field>
+        <field name="res_model">create.quotation.payment.duplicate</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

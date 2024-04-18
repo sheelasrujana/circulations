@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_demand_request" name="Demand Request" customize_show="True"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Demand Request</t>
+                <t t-set="url" t-value="'/demand/request'"/>
+                <t t-set="placeholder_count" t-value="'demand_count'"/>
+            </t>
+        </xpath>
+    </template>
+    <template id="portal_breadcrumbs_returns" inherit_id="portal.portal_breadcrumbs" name="Demand Request">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'demand_request'" class="breadcrumb-item">Demand Request</li>
+        </xpath>
+    </template>
+    <template id="demand_request" name="Demand Request">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Demand Request</t>
+            </t>
+        </t>
+    </template>
+    <template id="demand_request" name="Demand Request">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Demand Request</t>
+            </t>
+            <t t-call="portal.portal_table">
+                <tr class="active" style="background-color: #20ACD4; color: white;">
+                    <th class="text-center">Agent</th>
+                    <th class="text-center">Agent Current Copies</th>
+                    <th class="text-center">Demand Type</th>
+                    <th class="text-center">Specific Date</th>
+                    <th class="text-center">Demand Changes</th>
+                    <th class="text-center">Demand Status</th>
+                    <th class="text-center">Status</th>
+                </tr>
+                <tr t-foreach="demand_request" t-as="demand_dict">
+                    <td class="text-center">
+                        <t t-esc="demand_dict['Agent_id']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="demand_dict['Agent_copies']"/>
+                    </td>
+
+                    <td class="text-center">
+                        <t t-esc="demand_dict['selection_field']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="demand_dict['specific_date']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="demand_dict['demand_changes']"/>
+                    </td>
+                    <td class="text-center">
+                        <!--                        <t t-esc="demand_dict['demand_state']"/>-->
+
+
+                        <span t-if="demand_dict['demand_state'] == 'Increase'"
+                              class="badge rounded-pill text-bg-success" style="font-size:14px">
+                            <i role="img" aria-label="Increase" title="Increase"></i>
+                            <span class="d-none d-md-inline">Increase</span>
+                        </span>
+                        <span t-if="demand_dict['demand_state'] == 'Decrease'"
+                              class="badge rounded-pill text-bg-danger" style="font-size:14px">
+                            <i role="img" aria-label="Decrease" title="Decrease"></i>
+                            <span class="d-none d-md-inline">Decrease</span>
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="demand_dict['status']"/>
+                    </td>
+                </tr>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_district_tree" model="ir.ui.view">
+        <field name="name">res.state.district.tree</field>
+        <field name="model">res.state.district</field>
+        <field name="arch" type="xml">
+            <tree string="District" delete="0">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_state_district" model="ir.actions.act_window">
+        <field name="name">Districts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.state.district</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No district Found!
+            </p>
+            <p>
+                Manage the list of district that can be set on your district.
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_state_district_partner"
+        action="action_state_district"
+        parent="contacts.menu_localisation"
+        sequence="3"/>
+</odoo>

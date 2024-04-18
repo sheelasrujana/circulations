@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_return_request" name="Return Request" customize_show="True"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Return Request</t>
+                <t t-set="url" t-value="'/return/request'"/>
+                <t t-set="placeholder_count" t-value="'return_count'"/>
+            </t>
+        </xpath>
+    </template>
+    <template id="portal_breadcrumbs_returns" inherit_id="portal.portal_breadcrumbs" name="Return Request">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'ret_request'" class="breadcrumb-item">Return Request</li>
+        </xpath>
+    </template>
+
+    <template id="return_request" name="Return Request">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Return Request</t>
+            </t>
+            <t t-call="portal.portal_table">
+                <tr class="active" style="background-color: #20ACD4; color: white;">
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Agent</th>
+                    <th class="text-center">From Date</th>
+                    <th class="text-center">To Date</th>
+                    <th class="text-center">Status</th>
+                </tr>
+                <tr t-foreach="return_request" t-as="return_dict">
+                    <td class="text-center">
+                        <t t-esc="return_dict['id']"/>
+                    </td>
+
+                    <td class="text-center">
+                       <a t-attf-href="/return/request/form/{{return_dict['id']}}">
+                            <t t-esc="return_dict['agent_name']"/>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="return_dict['from_date']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="return_dict['to_date']"/>
+                    </td>
+                    <td class="text-center">
+                        <t t-esc="return_dict['state']"/>
+                    </td>
+                </tr>
+            </t>
+        </t>
+    </template>
+
+</odoo>

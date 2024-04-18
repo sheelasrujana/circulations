@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_agent_invoicing_creating" model="ir.actions.act_window">
+        <field name="name">Run Agents Invoice Schedular</field>
+        <field name="res_model">agent.invoices.creating</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="agent_invoices_schedular_form_views" model="ir.ui.view">
+        <field name="name">Run Agents Invoice Schedular</field>
+        <field name="model">agent.invoices.creating</field>
+        <field name="arch" type="xml">
+            <form string="Payment">
+                <sheet>
+                    <div>
+                        Create Invoices for All the Agents.
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="agent_creating_invoices" string="Run Schedular" type="object"
+                            class="btn btn-sm btn-primary"/>
+                    <button string="Cancel" class="btn btn-sm btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem name="Create Agent Invoices" id="menu_agent_invoices_schedular_creating" parent="circulation_configaration_menu"
+              action="action_agent_invoicing_creating" sequence="1"/>
+</odoo>

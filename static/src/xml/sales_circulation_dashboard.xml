@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<template>
+    <t t-name="sales_circulation_dashboards">
+        <div class="oh_sales_circulation_dashboards" style="margin-top: 20px;">
+            <div class="container-fluid o_pj_dashboard">
+            </div>
+        </div>
+    </t>
+
+    <t t-name="sales_circulation_dashboard_data">
+
+
+        <div style="background:#aae4f5; margin-top: -21px; padding:10px; font-size:14px; width:100%; border-bottom-left-radius: 27px 27px; border-bottom-right-radius: 27px 27px;">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div id="welcomenote" class="col-lg-11 welcomenote common_margin"
+                         style="font-weight:bold; font-size:16px;">Welcome to
+                        Circulations.
+                    </div>
+                    <div class="col-lg-1" style="float:right; text-align:center">
+                        <i class="fa fa-user " aria-hidden="true" data-bs-toggle="modal" data-bs-target="#myModal"
+                           title="user Profile"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:30px; width:100%'></div>
+
+        <div class="row" style="width: 116%;">
+            <div class="col-xl-2 col-lg-6 col-md-12 col-12">
+                <!-- card -->
+                <div class="card card-lift" style="width: 340px!important; border-left: 5px solid #34495E;">
+                    <!-- card body -->
+                    <div class="card-body border">
+                        <!-- heading -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-0">Indent Supplied</h4>
+                            </div>
+                            <div class="color">
+                                <i class="fa fa-indent bg-c-gray"></i>
+                            </div>
+
+                        </div>
+                        <!-- project number -->
+                        <div class="reta_card_value">
+                            <t t-esc="widget.total_copies_previous_day"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-6 col-md-12 col-12">
+                <!-- card -->
+                <div class="card  card-lift" style="width: 340px!important;border-left: 5px solid #603cba;">
+                    <!-- card body -->
+                    <div class="card-body border">
+                        <!-- heading -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-0">Indent Demand</h4>
+                            </div>
+                            <div class="color">
+                                <i class="fa fa-indent bg-c-dark"></i>
+                            </div>
+
+                        </div>
+                        <!-- project number -->
+                        <div class="reta_card_value">
+                            <t t-esc="widget.total_copies_current_day"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-6 col-md-12 col-12">
+                <!-- card -->
+                <div class="card  card-lift" style="width: 340px; border-left: 5px solid #833c85;">
+                    <!-- card body -->
+                    <div class="card-body border" style="width: 340px!important;">
+                        <!-- heading -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-0">Demand Request Approval</h4>
+                            </div>
+                            <div class="color">
+                                <i class="fa fa-indent bg-c-voilet"></i>
+                            </div>
+
+                        </div>
+                        <!-- project number -->
+                        <div class="reta_card_value">
+                            <t t-esc="widget.total_demand_request"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-2 col-lg-6 col-md-12 col-12">
+                <!-- card -->
+                <div class="card-lift" style=" border-left: 5px solid brown;border-radius: 10px;">
+                    <!-- card body -->
+                    <div class="card card-body border" style="width: 337px!important;">
+                        <!-- heading -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-0">Payment Collections
+
+                                </h4>
+                            </div>
+                            <div class="color">
+                                <i class="fa fa-indent bg-c-brown"></i>
+                            </div>
+
+                        </div>
+                        <!-- project number -->
+                        <div class="reta_card_value">₹
+                            <t t-esc="widget.payment_collections_total"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 32.3px;margin-left: 2px;">
+                <div class="card comp-card" style=" border-left: 5px solid #4099ff;">
+                    <div class="card-body border">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="mb-3">Bills/Invoices
+
+                                </h6>
+                                <div class="DESIGN">
+                                    <div class="row">
+                                        <div class="circle-tile-description col-lg-4">
+                                            <strong>Total Amount</strong>
+                                        </div>
+                                        <div class="circle-tile-description col-lg-4">: ₹0.00</div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="circle-tile-description col-lg-4 ">
+                                            <strong>Pending Due</strong>
+                                        </div>
+                                        <div class="circle-tile-description col-lg-4">: ₹ 0.00</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-indent bg-c-blue"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-body">
+            <div class="page-wrapper">
+                <div class="container-fluid">
+
+                    <div class="row" style="margin-top: -22px !important; width: 106%;">
+
+
+                        <div class="col-lg-8 graph_div_table" style=" height: 335px; margin-right: -133px;width: 74%;">
+                            <div id="tabletargets">
+                                <div class="tableheader_new" style="margin-bottom:2px;">Agent Invoices</div>
+                                <div class="table-responsive scrollbar-thin" style="max-height:300px;">
+                                    <table class="table table-striped">
+                                        <thead style="position: sticky;top: 0; background:#20acd4">
+                                            <tr style="font-size:16px;">
+                                                <th name="th_inv_number" class="headertablefixed" style="color:#FFF">
+                                                    <strong>Invoice Number</strong>
+                                                </th>
+                                                <th name="th_agent_name" class="headertablefixed" style="color:#FFF">
+                                                    <strong>Agent</strong>
+                                                </th>
+                                                <th name="th_due_date" class="headertablefixed" style="color:#FFF">
+                                                    <strong>Due Date</strong>
+                                                </th>
+                                                <th name="th_total_amount" class="headertablefixed" style="color:#FFF">
+                                                    <strong>Total Amount</strong>
+                                                </th>
+                                                <th name="th_amount_residual" class="headertablefixed"
+                                                    style="color:#FFF">
+                                                    <strong>Total Due</strong>
+                                                </th>
+                                                <th name="th_progress_bar" class="headertablefixed text-center"
+                                                    style="color:#FFF">
+                                                    <strong>Progress</strong>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="widget.invoice_lines" t-as="invoice_line">
+                                                <tr t-att-class='o_line_section'>
+                                                    <td style='padding:10px;'>
+                                                        <span>
+                                                            <t t-esc="invoice_line.invoice_number"/>
+                                                        </span>
+                                                    </td>
+                                                    <td style='padding:10px;'>
+                                                        <span>
+                                                            <t t-esc="invoice_line.agent_name"/>
+                                                        </span>
+                                                    </td>
+                                                    <td style='padding:10px;'>
+                                                        <span>
+                                                            <t t-esc="invoice_line.invoice_due_date"/>
+                                                        </span>
+                                                    </td>
+                                                    <td style='padding:10px;'>
+                                                        <span>
+                                                            <t t-esc="invoice_line.total_amount"/>
+                                                        </span>
+                                                    </td>
+                                                    <td style='padding:10px;'>
+                                                        <span>
+                                                            <t t-esc="invoice_line.amount_residual"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-center" style='padding:10px;'>
+                                                        <progress id="progress_bar" t-att-value="invoice_line.progress"
+                                                                  max="100">
+
+                                                        </progress>
+                                                        <span>
+                                                            <t t-esc="invoice_line.progress"/>
+                                                        </span>
+                                                        <span>%</span>
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-4" style=" padding: 1px 175px;margin-left: -34px;">
+                            <div class="card comp-card" style=" border-left: 5px solid #4099ff;">
+                                <div class="card-body border">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h6 class="mb-3">Bills/Invoices
+
+                                            </h6>
+                                            <div class="DESIGN">
+                                                <div class="row">
+                                                    <div class="circle-tile-description col-lg-4">
+                                                        <strong>Total Amount</strong>
+                                                    </div>
+                                                    <div class="circle-tile-description col-lg-4">: ₹
+                                                        <t t-esc="widget.total_amount"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="circle-tile-description col-lg-4 ">
+                                                        <strong>Pending Due</strong>
+                                                    </div>
+                                                    <div class="circle-tile-description col-lg-4">: ₹
+                                                        <t t-esc="widget.total_amount_due"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-indent bg-c-blue"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card comp-card" style="margin-top: -20px;border-left: 5px solid #2ed8b6;">
+                                <div class="card-body border">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h6 class="mb-3">
+                                                Deposits
+                                            </h6>
+                                            <div class="DESIGN">
+                                                <div class="row">
+                                                    <div class="circle-tile-description col-lg-4">
+                                                        <strong>Total Amount</strong>
+                                                    </div>
+                                                    <div class="circle-tile-description col-lg-4">: ₹
+                                                        <t t-esc="widget.account_deposit_total_amount"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="circle-tile-description col-lg-4 "
+                                                         style="font-size: 12px;">
+                                                        <strong
+                                                        >Total Outstanding
+                                                        </strong>
+                                                    </div>
+                                                    <div class="circle-tile-description col-lg-4">: ₹
+                                                        <t t-esc="widget.account_deposit_total_amount_outstanding"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-indent bg-c-green"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card comp-card" style="margin-top: -20px; border-left: 5px solid #ffb64d;">
+                                <div class="card-body border">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h6 class="mb-3">
+                                                Transportation Bills
+                                            </h6>
+                                            <div class="DESIGN">
+                                                <div class="row">
+                                                    <div class="circle-tile-description col-lg-4">
+                                                        <strong>Total Amount</strong>
+                                                    </div>
+                                                    <div class="circle-tile-description col-lg-4">: ₹
+                                                        <t t-esc="widget.transportation_bill_total_amount"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="circle-tile-description col-lg-4 "
+                                                         style="font-size: 12px;">
+                                                        <strong>Total Outstanding</strong>
+                                                    </div>
+                                                    <div class="circle-tile-description col-lg-4">: ₹
+                                                        <t t-esc="widget.transportation_bill_total_amount_due"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-indent bg-c-yellow"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-4 graph_div" style="margin-top: -21px;">
+                            <div class="row">
+
+                                <div class="col-md-12 graph_icon">
+                                    <ul class="nav nav-tabs  mb-3" id="ex1" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a
+                                                    class="nav-link active"
+                                                    id="ex3-tab-1"
+                                                    data-bs-toggle="tab"
+                                                    href="#ex3-tabs-1"
+                                                    role="tab"
+                                                    aria-controls="ex3-tabs-1"
+                                                    aria-selected="true"
+                                            >
+                                                <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a
+                                                    class="nav-link"
+                                                    id="ex3-tab-2"
+                                                    data-bs-toggle="tab"
+                                                    href="#ex3-tabs-2"
+                                                    role="tab"
+                                                    aria-controls="ex3-tabs-2"
+                                                    aria-selected="false"
+                                            >
+                                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                            </a
+                                            >
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a
+                                                    class="nav-link"
+                                                    id="ex3-tab-3"
+                                                    data-bs-toggle="tab"
+                                                    href="#ex3-tabs-3"
+                                                    role="tab"
+                                                    aria-controls="ex3-tabs-3"
+                                                    aria-selected="false"
+                                            >
+                                                <i class="fa fa-line-chart" aria-hidden="true"></i>
+                                            </a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="tab-content" id="ex2-content">
+                                <div class="tab-pane fade show active" id="ex3-tabs-1" role="tabpanel"
+                                     aria-labelledby="ex3-tab-1">
+                                    <div>
+                                        <canvas id='circulation_pie_chart' height="300vh" width="400vw"/>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="ex3-tabs-2" role="tabpanel" aria-labelledby="ex3-tab-2">
+                                    <div>
+                                        <canvas id='circulation_bar_graph' height="300vh" width="400vw"/>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="ex3-tabs-3" role="tabpanel" aria-labelledby="ex3-tab-3">
+                                    <div>
+                                        <canvas id='circulation_line_graph' height="300vh" width="400vw"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="myModal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Profile Details</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="container mt-5 d-flex justify-content-center">
+                                <div class="card p-3">
+
+                                    <div class="d-flex align-items-center">
+
+                                        <!--                                    <div class="image">-->
+                                        <!--                                        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=500&q=80"-->
+                                        <!--                                             class="rounded" width="155"/>-->
+                                        <!--                                    </div>-->
+
+                                        <div class="ml-3 w-100">
+
+                                            <h4 class="mb-0 mt-0">Alex HMorrision</h4>
+                                            <span>Senior Journalist</span>
+
+                                            <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+
+                                                <div class="d-flex flex-column">
+
+                                                    <span class="articles">Articles</span>
+                                                    <span class="number1">38</span>
+
+                                                </div>
+
+                                                <div class="d-flex flex-column">
+
+                                                    <span class="followers">Followers</span>
+                                                    <span class="number2">980</span>
+
+                                                </div>
+
+
+                                                <div class="d-flex flex-column">
+
+                                                    <span class="rating">Rating</span>
+                                                    <span class="number3">8.9</span>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="button mt-2 d-flex flex-row align-items-center">
+
+                                                <button class="btn btn-sm btn-outline-primary w-100">Chat</button>
+                                                <button class="btn btn-sm btn-primary w-100 ml-2">Follow</button>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </t>
+
+
+</template>

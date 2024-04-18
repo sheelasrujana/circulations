@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_reportttt" model="ir.actions.report">
+        <field name="name">delivery channel report</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">circulation_new.channel_report</field>
+        <field name="report_file">circulation_new.channel_report</field>
+        <!--        <field name="print_report_name">'Print Badge - %s' % (object.name).replace('/', '')</field>-->
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_odoo"/>
+    </record>
+    <record id="tax_invoice" model="ir.actions.report">
+        <field name="name">Tax Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sales_circulation.tax_invoice_report</field>
+        <field name="report_file">sales_circulation.tax_invoice_report</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="paperformat_id" ref="paperformat_odoo"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_bank_details" model="ir.actions.act_window">
+        <field name="name">Bank Details</field>
+        <field name="res_model">bank.details</field>
+        <field name="view_mode">tree,form</field>
+        <!--         <field name="view_id" ref="view_bank_details_form"/> -->
+    </record>
+    <record id="view_bank_details_tree" model="ir.ui.view">
+        <field name="name">bank.details.tree</field>
+        <field name="model">bank.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="bank_conditions"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_bank_details_form" model="ir.ui.view">
+        <field name="name">bank.details.from</field>
+        <field name="model">bank.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="bank_conditions"/>
+                        <field name="web"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <menuitem id="bank_details_terms" name="Bank Details" parent="account.menu_finance_configuration" sequence="1"
+              action="action_bank_details"/>
+
+
+</odoo>

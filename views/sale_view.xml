@@ -1,0 +1,592 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_io_order" model="ir.sequence">
+            <field name="name">Internal Order</field>
+            <field name="code">internal.order</field>
+            <field name="prefix">IO</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+    <record id="inherit_sale_view_order_form_gst" model="ir.ui.view">
+        <field name="name">sale.order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="l10n_in_sale.view_order_form_inherit_l10n_in_sale"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='l10n_in_gst_treatment']" position="attributes">
+                <attribute name="attrs">{'invisible':[('internal_order','=',True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_sale_view_order_form" model="ir.ui.view">
+        <field name="name">sale.order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <h1>
+                    <field name="new_seq"
+                           attrs="{'invisible':[('internal_order','!=',True)]}"/>
+                </h1>
+
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="sale_order_duplicating" invisible="1"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <field name="state_duplicate" widget="statusbar" statusbar_visible="draft,sale"
+                       attrs="{'invisible':[('internal_order','!=',True)]}"/>
+            </xpath>
+            <xpath expr="//header/field[@name='state']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='validity_date']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <!--             <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                            <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+                        </xpath> -->
+            <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tax_totals']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='note']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet//group[@name='order_details']/div[1]" position="replace">
+                <div class="o_td_label" attrs="{'invisible':[('internal_order','!=',True)]}"
+                     modifiers="{&quot;invisible&quot;: [[&quot;state&quot;, &quot;in&quot;, [&quot;sale&quot;, &quot;done&quot;, &quot;cancel&quot;]]]}">
+                    <label for="date_order" string="WorkOrder Date"/>
+                </div>
+                <div class="o_td_label" attrs="{'invisible':[('internal_order','=',True)]}"
+                     modifiers="{&quot;invisible&quot;: [[&quot;state&quot;, &quot;in&quot;, [&quot;sale&quot;, &quot;done&quot;, &quot;cancel&quot;]]]}">
+                    <label for="date_order" string="Quotation Date"/>
+                </div>
+            </xpath>
+            <!--            <xpath expr="//form/sheet//group[@name='order_details']/label" position="attributes">-->
+            <!--                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>-->
+            <!--            </xpath>-->
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']"
+                   position="before">
+                <field name="printing_unit"/>
+                <field name="contact_name" required="1"
+                       attrs="{'readonly': [('product_updatable', '=', False)]}"/>
+                <field name="agent_code"/>
+                <field name="region_s"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='name']"
+                   position="before">
+                <field name="newspaper_date"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='optional_products']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='other_information']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']"
+                   position="before">
+
+                <field name="invisible_field" invisible="1"/>
+                <field name="agent_copies" optional="show" sum="Total"/>
+                <field name="demand_added" optional="show"  sum="Total"/>
+                <field name="demand_state" optional="show" widget="badge" decoration-success="demand_state=='increase'"
+                       decoration-danger="demand_state=='decrease'" style="text-align:right;"/>
+                <field name="free_copies" optional="show" sum="Total"/>
+                <field name="postal_copies" optional="show" sum="Total"/>
+                <field name="voucher_copies" optional="show" sum="Total"/>
+                <field name="promotional_copies" optional="show" sum="Total"/>
+                <field name="correspondents_copies" optional="show" sum="Total"/>
+                <field name="office_copies" optional="show" sum="Total"/>
+                <field name="magazine" attrs="{'invisible':[('invisible_field','=',0)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']"
+                   position="attributes">
+                <attribute name="attrs">{'invisible':[('parent.sale_order_duplicating','!=',True)]}</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_subtotal']"
+                   position="attributes">
+                <attribute name="attrs">{'invisible':[('parent.sale_order_duplicating','!=',True)]}</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='tax_id']"
+                   position="attributes">
+                <attribute name="attrs">{'invisible':[('parent.sale_order_duplicating','!=',True)]}</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='discount']"
+                   position="attributes">
+                <attribute name="attrs">{'invisible':[('parent.sale_order_duplicating','!=',True)]}</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='name']"
+                   position="attributes">
+                <attribute name="attrs">{'invisible':[('parent.sale_order_duplicating','!=',True)]}</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='qty_invoiced']"
+                   position="attributes">
+                <attribute name="attrs">{'invisible':[('parent.sale_order_duplicating','!=',True)]}</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']"
+                   position="attributes">
+                <!--                hiding field when product is magazin or sp-->
+                <attribute name="attrs">{'invisible':[('invisible_field','=',1)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@id='create_invoice']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@id='pricelist_id']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>-->
+<!--            </xpath>-->
+            <xpath expr="//button[@id='create_invoice_percentage']" position="attributes">
+                <attribute name="attrs">{'invisible':[('sale_order_duplicating','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']"
+                   position="attributes">
+                <attribute name="string">Number of Copies</attribute>
+                <attribute name="sum">Total</attribute>
+                <attribute name="readonly">1</attribute>
+                <attribute name="options">{'scale': 0}</attribute>
+                <attribute name="widget">integer</attribute>
+            </xpath>
+            <!--            For adding the empty color box in internal order form view -->
+            <xpath expr="//group[@name='order_details']" position="after">
+                <field name="internal_order" invisible="1"/>
+                <div attrs="{'invisible':[('internal_order','!=',True)]}">
+                    <span>
+                        <b>use
+                            <button string="M" class="btn-warning"/>
+                            for adding Magazine
+                        </b>
+                    </span>
+                    <br></br>
+                    <br></br>
+                    <span>
+                        <b>Use
+                            <button string="SE" class="btn-info"/>
+                            for adding Special Edition
+                        </b>
+                    </span>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='order_line']"
+                   position="attributes">
+                <attribute name="widget">one2many_search</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--button to add product from sale.order-->
+    <record model="ir.ui.view" id="sale_order_view_form">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']" position="before">
+                <page string="Printing Orders" name="customer_selection"
+                      attrs="{'invisible':[('internal_order','!=',True)]}">
+                    <field name="add_new_product">
+                        <tree>
+                            <field name="partner_id" required='1'/>
+                            <field name="product_id" required='1'/>
+                            <field name="edition_contacts" widget="many2many_tags" optional="show"/>
+                            <field name="district_contacts" widget="many2many_tags" optional="show"/>
+                            <field name="regions_contact" widget="many2many_tags" optional="show"/>
+                            <field name="mains_contact" widget="many2many_tags" optional="show"/>
+                            <field name="newspaper_date" required='1'/>
+                            <field name="with_ads" optional="hide"/>
+                            <!--                            <field name="without_ads" optional="hide"/>-->
+                            <field name="qty" required='1'/>
+                            <field name="check_box" invisible="1"/>
+                            <field name="hide_add_m" invisible="1"/>
+                            <field name="hide_add_s" invisible="1"/>
+
+                            <button name="magazine" type="object" string="M" class="btn-warning"
+                                    attrs="{'invisible':[('hide_add_m','=',True)]}"/>
+
+                            <button name="special_edition" type="object" string="SE" class="btn-info"
+                                    attrs="{'invisible':[('hide_add_s','=',True)]}"/>
+                        </tree>
+                        <form>
+                            <group class="oe_left oe_form_group">
+                                <field name="partner_id" required='1'/>
+                                <field name="product_id" required='1'/>
+                                <field name="newspaper_date" required='1'/>
+                                <field name="qty" required='1'/>
+                            </group>
+                            <group class="oe_right oe_form_group">
+                                <field name="edition_contacts">
+                                    <tree editable="bottom">
+                                        <!--                                        <field name="Associated_Units" widget="many2many_tags"/>-->
+                                        <field name="name"/>
+                                        <field name="no_pages_edition"/>
+
+                                    </tree>
+                                </field>
+                                <field name="district_contacts">
+                                    <tree editable="bottom">
+                                        <field name="parent_id_district_o2m" string="Associated Edition"/>
+                                        <field name="name"/>
+                                        <field name="no_pages_district"/>
+                                    </tree>
+                                </field>
+                                <field name="regions_contact">
+                                    <tree editable="bottom">
+                                        <field name="parent_id_zone_o2m" string="Associated District"/>
+                                        <field name="name"/>
+                                        <field name="no_pages"/>
+                                    </tree>
+                                </field>
+                                <field name="mains_contact">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="no_paper_with_ads" readonly="0" store='1'/>
+
+                                    </tree>
+                                </field>
+                            </group>
+
+
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']" position="attributes">
+                <attribute name="string">Agent Sales</attribute>
+                <attribute name="attrs">{'invisible':[('internal_order','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='customer_signature']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='optional_products']" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <attribute name="attrs">{'invisible':[('internal_order','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='other_information']" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <attribute name="attrs">{'invisible':[('internal_order','=',True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    sale order name change -->
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="name">Internal Orders</field>
+        <field name="domain">[('sale_order_duplicating','!=',True)]</field>
+        <field name="context">{'default_internal_order':True}</field>
+        <field name="view_id" ref="view_internal_order_tree"/>
+        <!--        for additionsssss-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Internal order
+            </p>
+            <p>
+                <br/>
+                You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+
+    <record id="sale.menu_sale_quotations" model="ir.ui.menu">
+        <field name="name">Internal Orders</field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_view_form">
+        <field name="name">stock.lot.form</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="newspaper_date" readonly="1"/>
+                <field name="order_qty" readonly="1"/>
+                <field name="return_date" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="sale_order_line_tree_view">
+        <field name="name">sale.order.line</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="printing_unit" optional="hide"/>
+                <field name="newspaper_date" options="{'group_by': 'newspaper_date:month'}" type="col" interval="month"/>
+                <field name="agent_code"/>
+                <field name="region_s" type="row"/>
+                <field name="agent_copies" optional="show" sum="Total" type="measure"/>
+                <field name="free_copies" optional="show" sum="Total"/>
+                <field name="postal_copies" optional="show" sum="Total"/>
+                <field name="voucher_copies" optional="show" sum="Total"/>
+                <field name="promotional_copies" optional="show" sum="Total"/>
+                <field name="correspondents_copies" optional="show" sum="Total"/>
+                <field name="office_copies" optional="show" sum="Total"/>
+                <field name="demand_changes" optional="show"/>
+                <field name="demand_state" optional="show" widget="badge" decoration-success="demand_state=='increase'"
+                       decoration-danger="demand_state=='decrease'"/>
+                <field name="product_uom_qty" optional="show" widget="integer"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="stock_view_tree">
+        <field name="name">stock.lot.tree</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="before">
+                <field name="newspaper_date" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_move_form" model="ir.ui.view">
+        <field name="name">stock.picking.inheritance</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+                <field name="newspaper_date"/>
+                <field name="location_dest_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_order_form_inherit_sale_stock" model="ir.ui.view">
+        <field name="name">sale.order.form.sale.stock</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_invoice']" position="before">
+                <button name="view_mrp_orders" type="object" class="oe_stat_button" icon="fa-cogs"
+                        attrs="{'invisible': [('mrp_order_count', '=', 0)]}" groups="sales_circulation.group_sales_circulation_mrp_incharge">
+                    <field name="mrp_order_count" widget="statinfo" string="Print Orders"/>
+                </button>
+            </xpath>
+            <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                <attribute name="groups">
+                    sales_circulation.group_sales_circulation_dispatch_incharge
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_template_scrap_location" model="ir.ui.view">
+        <field name="name">product template</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_po_id']" position="after">
+                <field name="scrap_location"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_product_product" model="ir.ui.view">
+        <field name="name">Product Product</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_ok']" position="before">
+                <span class="d-inline-block">
+                    <field name="is_magazine"/>
+                    <label for="is_magazine"/>
+                </span>
+                <span class="d-inline-block">
+                    <field name="is_special_edition"/>
+                    <label for="is_special_edition"/>
+                </span>
+                <span class="d-inline-block">
+                    <field name="is_newspaper"/>
+                    <label for="is_newspaper"/>
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ir_cron_for_internal_orderss" model="ir.cron">
+        <field name="name">Internal Order</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">model.create_internal_order()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+    <record id="custom_view_picking_form_return_wizard" model="ir.ui.view">
+        <field name="name">Stock Picking Return</field>
+        <field name="model">stock.return.picking</field>
+        <field name="inherit_id" ref="stock.view_stock_return_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="custom_view_picking_form" model="ir.ui.view">
+        <field name="name">custom.stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id'][@groups='stock.group_stock_multi_locations']"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='location_dest_id'][@groups='stock.group_stock_multi_locations']"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!--            bundules details-->
+            <xpath expr="//page[@name='note']/field[@name='note']" position="after">
+                <div>
+                    <h4>Bundle Calculation :</h4>
+                    Bundle Calculation will be done based on the quantity of the newspaper.
+                    If the Bundle quantity is less than 150 it will consider as one bundle,
+                    if the last bundle quantity is greater than or equal to 150 it will consider as 2 bundles.
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_confirm_action_set_quantities_to_reservation" model="ir.actions.server">
+        <field name="name">Set Quantities</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_stock_picking"/>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="state">code</field>
+        <field name="code">records.action_set_quantities_to_reservation_new()</field>
+    </record>
+    <record id="action_confirm_action_check_availability" model="ir.actions.server">
+        <field name="name">Check Availability</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_stock_picking"/>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="state">code</field>
+        <field name="code">records.check_availability()</field>
+    </record>
+
+    <record id="seq_agent_dc" model="ir.sequence">
+        <field name="name">Agent Delivery Order</field>
+        <field name="code">agent.delivery.sequence</field>
+        <field name="prefix">/Delivery-Order/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_io_stock_picking_DO" model="ir.sequence">
+        <field name="name">DO</field>
+        <field name="code">delivery.order</field>
+        <field name="prefix">/OUT/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_io_stock_picking_return" model="ir.sequence">
+        <field name="name">DO</field>
+        <field name="code">ret.order</field>
+        <field name="prefix">/RET/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="view_sale_order_inherited" model="ir.ui.view">
+        <field name="name">sale.order.inherit.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/filter[@name='my_sale_orders_filter']" position="after">
+                    <field name="timedelta_prev_day" invisible="1"/>
+                    <filter string="Today" name="today"
+                        domain="[('create_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))),
+                         ('create_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+                    <filter string="Yesterday" name="yesterday"
+                        domain="[('create_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-1), datetime.time(0,0,0))),
+                         ('create_date','&lt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-1), datetime.time(23,59,59)))]"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_sale_order_inherited" model="ir.ui.view">
+        <field name="name">sale.order.inherit.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/filter[@name='my_sale_orders_filter']" position="after">
+                    <field name="timedelta_prev_day" invisible="1"/>
+                    <filter string="Today" name="today"
+                        domain="[('create_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))),
+                         ('create_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+                    <filter string="Yesterday" name="yesterday"
+                        domain="[('create_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-30), datetime.time(0,0,0))),
+                         ('create_date','&lt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-1), datetime.time(23,59,59)))]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_circulation_inherited" model="ir.ui.view">
+        <field name="name">sale.order.inherit.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <search>
+<!--                <filter string="Agent" name="group_by_region_s" context="{'group_by':'region_s',}"/>-->
+<!--                <field name="timedelta_prev_day" invisible="1"/>-->
+                <filter string="Today" name="today"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))),
+                 ('newspaper_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+                <filter string="Yesterday" name="yesterday"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-1), datetime.time(0,0,0))),
+                     ('newspaper_date','&lt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-1), datetime.time(23,59,59)))]"/>
+
+                <filter string="week" name="week"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-7), datetime.time(0,0,0))),
+                 ('newspaper_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+
+                <filter string="2 week" name="two_week"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-14), datetime.time(0,0,0))),
+                 ('newspaper_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+
+                <filter string="3 week" name="three_week"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-21), datetime.time(0,0,0))),
+                 ('newspaper_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+
+                <filter string="month" name="month"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-30), datetime.time(0,0,0))),
+                 ('newspaper_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+
+                <filter string="Quatar" name="quatar"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-180), datetime.time(0,0,0))),
+                 ('newspaper_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+
+                <filter string="Year" name="year"
+                        domain="[('newspaper_date','&gt;=', datetime.datetime.combine(context_today()+ relativedelta(days=-365), datetime.time(0,0,0))),
+                 ('newspaper_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+            </search>
+        </field>
+    </record>
+
+
+</odoo>

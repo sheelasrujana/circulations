@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!--    <template id="portal_my_home_menu_agent_deposit" name="Portal layout : sales menu entries"-->
+    <!--              inherit_id="portal.portal_breadcrumbs" priority="20">-->
+    <!--        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">-->
+    <!--            <li t-attf-class="breadcrumb-item #{'active ' if not deposits_dict else ''}">-->
+    <!--                <a t-if="deposits_dict" t-attf-href="">Agent Deposit</a>-->
+    <!--                <t t-else="">Agent Deposit</t>-->
+    <!--            </li>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+
+    <template id="portal_my_home_agent_deposit" name="Agent Deposit" customize_show="True"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Agent Deposit</t>
+                <t t-set="url" t-value="'/agent_deposit'"/>
+                <t t-set="placeholder_count" t-value="'deposit_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="portal_breadcrumbs_deposits" inherit_id="portal.portal_breadcrumbs" name="Portal Breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'agent_deposit_list'" class="breadcrumb-item">Agent Deposits</li>
+        </xpath>
+    </template>
+
+
+    <!--    <record id="website_menu_agent_deposit" model="website.menu">-->
+    <!--        <field name="name">Agent Deposit</field>-->
+    <!--        <field name="url" eval="'/agent_deposit'"/>-->
+    <!--        <field name="parent_id" ref="website.main_menu"/>-->
+    <!--        <field name="sequence" type="int">3</field>-->
+    <!--    </record>-->
+
+
+    <template id="agent_deposit" name="Agent Deposit">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Agent Deposit</t>
+            </t>
+            <t t-call="portal.portal_table">
+                <tr class="active">
+                    <th class="text-center">Partner</th>
+                    <th class="text-center">Deposit Amount</th>
+                    <th class="text-center">Interest Percentage</th>
+                </tr>
+                <tr t-foreach="deposits" t-as="deposits_dict">
+                    <t t-set="keys" t-value="deposits_dict.keys()"/>
+                    <t t-foreach="keys" t-as="key">
+                        <td class="text-center">
+                            <t t-esc="deposits_dict[key]"/>
+                        </td>
+                    </t>
+                </tr>
+            </t>
+            <!--            <p t-else="">There are currently no availble Indents.</p>-->
+        </t>
+    </template>
+</odoo>

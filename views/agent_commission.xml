@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="agent_credit_tree" model="ir.ui.view">
+        <field name="name">agent.credit.tree</field>
+        <field name="model">agent.credit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="agent_id" />
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="unit_price" />
+                <field name="total_copies"/>
+                <field name="total_amount"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <record id="agent_credit_form" model="ir.ui.view">-->
+<!--        <field name="name">agent.credit.tree</field>-->
+<!--        <field name="model">agent.credit</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <headers>-->
+<!--                    <button string="Send For Approvals" name="get_sale_orders" type="object"/>-->
+
+<!--                    <button string="Approved" name="send_for_approvals" type="object" class="oe_highlight" attrs="{'invisible': [('status', 'not in', ('waiting'))]}"/>-->
+
+<!--                    <button string="Create Credit Note" name="create_credit_note" type="object" class="oe_highlight" attrs="{'invisible': [('status', 'not in', ('approved'))]}"/>-->
+
+<!--                    <button string="Cancel" name="cancel_cr_notes" type="object"  attrs="{'invisible': [('status', 'not in', ('draft','waiting','approved','cr'))]}" status="draft,waiting,approved,cr"/>-->
+
+
+<!--            <field name="status" widget="statusbar"-->
+<!--                   statusbar_visible="draft,waiting,approved,cr"/>-->
+
+<!--                </headers>-->
+<!--                <sheet>-->
+<!--                    <group col="2">-->
+<!--                    <group>-->
+<!--                        <field name="agent_id" />-->
+<!--                        <field name="start_date"/>-->
+<!--                        <field name="end_date" />-->
+<!--                    </group>-->
+<!--                    <group col="2">-->
+<!--                        <field name="unit_price" />-->
+<!--&lt;!&ndash;                        <field name="total_copies"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <field name="total_amount"/>&ndash;&gt;-->
+<!--                    </group>-->
+<!--                    </group>-->
+<!--                    <notebook>-->
+<!--                        <page name="order_line_ids" string="Order Details">-->
+<!--                            <field name="line_ids">-->
+<!--                                <tree edit="0" delete="0" create="0">-->
+<!--                                    <field name="agent_cr_id"/>-->
+<!--                                    <field name="order_id"/>-->
+<!--                                    <field name="product_id"/>-->
+<!--                                    <field name="newspaper_date"/>-->
+<!--                                    <field name="printing_unit"/>-->
+<!--                                    <field name="region_s"/>-->
+<!--                                    <field name="state"/>-->
+<!--                                    <field name="free_copies"/>-->
+<!--&lt;!&ndash;                                    <field name="price_total" string="Order Total"/>&ndash;&gt;-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="action_agent_credit_notes" model="ir.actions.act_window">
+        <field name="name">Credit Notes for Agent-Free Copies</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">agent.credit</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+        <menuitem id="agent_credit_note_main_menu"
+              name="Agent-Free Copies CN"
+              sequence="12"
+              parent="circulation_main_menu"
+              action="action_agent_credit_notes"
+              groups="group_sales_circulation_agent,group_sales_circulation_segment_incharge,group_sales_circulation_circulation_incharge,group_sales_circulation_staff_deposit,group_sales_circulation_staff_billing,group_sales_circulation_unit_manager,group_sales_circulation_admin,group_sales_circulation_marketing,group_sales_circulation_billing,group_sales_circulation_head"
+    />
+
+</odoo>

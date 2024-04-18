@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<template>
+    <t t-name="circulation_agent_dashboards">
+        <div class="oh_sales_circulation_dashboards" style="margin-top: 20px;">
+            <div class="container-fluid o_agent_dashboard">
+            </div>
+        </div>
+    </t>
+
+    <t t-name="circulation_agent_dashboard_data">
+
+
+        <div style="background:#aae4f5; margin-top: -21px; padding:10px; font-size:14px; width:100%; border-bottom-left-radius: 27px 27px; border-bottom-right-radius: 27px 27px;">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div id="welcomenote" class="col-lg-5 welcomenote common_margin"
+                         style="font-weight:bold; font-size:16px;">Welcome to
+                        Circulations.
+                    </div>
+                    <div class="col-lg-1" style="float:right; text-align:center">
+                        <i class="fa fa-user " aria-hidden="true" data-bs-toggle="modal" data-bs-target="#myModal"
+                           title="user Profile"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:30px; width:100%'></div>
+
+  <div class='col-12'>
+
+                <div style="padding: 3px;box-shadow: 2px 2px 2px 2px #dbdbe3 !important; background: #fff; border-radius: 5px; ">
+
+                    <div class='row spacer_row'>
+                        <div class='col-md-3 text-center common_margin'>
+                            <div class='o-scorecard w-100 h-100 reta_card common_card'>
+                                <div class="display_cio_div" role="button"
+                                     t-attf-test="web#view_type=list&amp;model=sale.order&amp;action=sales_circulation.action_yesterday_indent_supplied&amp;menu_id=sales_circulation.view_internal_order_tree">
+                                    <div class="card_header hdr1_bg_color" style="margin-bottom: 5px;">
+                                        <div class="card_header_left">
+                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                            Indent Supplied
+                                        </div>
+                                        <!--                             <div class="card_header_right"></div>-->
+                                        <div>
+                                        </div>
+
+                                    </div>
+                                    <div class="reta_card_value">
+                                        <t t-esc="widget.total_copies_previous_day"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                        <div class='col-md-3 text-center common_margin'>
+                            <div class='o-scorecard w-100 h-100 reta_card common_card'>
+                                <div class="display_indent_demand" role="button"
+                                     t-attf-test="web#view_type=list&amp;model=sale.order&amp;action=sales_circulation.action_today_indent_demand&amp;menu_id=sales_circulation.view_internal_order_tree">
+                                    <div class="card_header hdr2_bg_color" style="margin-bottom: 5px;">
+                                        <div class="card_header_left">
+                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                            Indent Demand
+                                        </div>
+                                        <!--                             <div class="card_header_right"></div>-->
+                                        <div>
+                                        </div>
+
+                                    </div>
+                                    <div class="reta_card_value">
+                                        <t t-esc="widget.total_copies_current_day"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                        <div class='col-md-3 text-center common_margin'>
+                            <div class='o-scorecard w-100 h-100 reta_card common_card'>
+                                <div class="display_total_demand_request" role="button"
+                                     t-attf-test="web#view_type=list&amp;model=sale.order&amp;action=sales_circulation.action_demand_request_approval&amp;menu_id=sales_circulation.demand_request_tree">
+                                    <div class="card_header hdr3_bg_color" style="margin-bottom: 5px;">
+                                        <div class="card_header_left">
+                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                            Demand Request Approval
+                                        </div>
+                                        <!--                             <div class="card_header_right"></div>-->
+                                        <div>
+                                        </div>
+
+                                    </div>
+                                    <div class="reta_card_value">
+                                        <t t-esc="widget.total_demand_request"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                        <div class='col-md-3 text-center common_margin'>
+                            <div class='o-scorecard w-100 h-100 reta_card common_card'>
+                                <div class="display_payment_collections_total" role="button"
+                                     t-attf-test="web#view_type=list&amp;model=account.payment&amp;action=sales_circulation.action_account_payment_agents&amp;menu_id=account.view_account_payment_tree">
+                                    <div class="card_header hdr4_bg_color" style="margin-bottom: 5px;">
+                                        <div class="card_header_left">
+                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                            Payment Collections
+                                        </div>
+                                        <!--                             <div class="card_header_right"></div>-->
+                                        <div>
+                                        </div>
+
+                                    </div>
+                                    <div class="reta_card_value">₹
+                                        <t t-esc="widget.payment_collections_total"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class='row spacer_row'>
+                        <div class='col-md-4 text-center common_margin'>
+                            <div class='o-scorecard w-100 h-100 reta_card common_card'>
+                                <div class="display_bill_invoices" role="button"
+                                     t-attf-test="web#view_type=list&amp;model=account.move&amp;action=sales_circulation.action_mail_closed&amp;menu_id=account.view_out_invoice_tree">
+                                    <div class="card_header hdr5_bg_color" style="margin-bottom: 5px;">
+                                        <div class="card_header_left">
+                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                            Bills/Invoices
+                                        </div>
+                                        <!--                             <div class="card_header_right"></div>-->
+                                        <div>
+                                        </div>
+
+                                    </div>
+                                    <div class="reta_card_value">Total Amount : ₹
+                                        <t t-esc="widget.total_amount"/>
+                                    </div>
+                                    <br/>
+                                    <div class="reta_card_value">Pending Due : ₹
+                                        <t t-esc="widget.total_amount_due"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                        <div class='col-md-4 text-center common_margin'>
+                            <div class='o-scorecard w-100 h-100 reta_card common_card'>
+                                <div class="display_account_deposit_div" role="button"
+                                     t-attf-test="web#view_type=list&amp;model=account.deposit&amp;action=account_deposit.action_account_deposit&amp;menu_id=account_deposit.account_deposit_tree_view">
+                                    <div class="card_header hdr6_bg_color" style="margin-bottom: 5px;">
+                                        <div class="card_header_left">
+                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                            Deposits
+                                        </div>
+                                        <!--                             <div class="card_header_right"></div>-->
+                                        <div>
+                                        </div>
+
+                                    </div>
+                                    <div class="reta_card_value">Total Amount : ₹
+                                        <t t-esc="widget.account_deposit_total_amount"/>
+                                    </div>
+                                    <br/>
+                                    <div class="reta_card_value">Total Outstanding : ₹
+                                        <t t-esc="widget.account_deposit_total_amount_outstanding"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                        <!-- <div class='col-md-3 text-center common_margin'>
+                            <div class='o-scorecard w-100 h-100 reta_card common_card'>
+                                <div class="display_cio_div" role="button">
+                                    <div class="card_header hdr7_bg_color" style="margin-bottom: 5px;">
+                                        <div class="card_header_left">
+                                            <i class="fa fa-indent" aria-hidden="true"></i>
+                                            Commissions
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </div>
+                                    <div class="reta_card_value">
+                                        <t t-esc="widget.total_commission_total"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                       
+
+                </div>
+            </div>
+            <div style='height:30px; width:100%'></div>
+            <div style="padding: 25px;box-shadow: 2px 2px 2px 2px #dbdbe3 !important; background: #fff; border-radius: 5px; ">
+                <div class="row">
+                    <div class="col-lg-6 graph_div_table">
+                        <div id="tabletargets">
+                            <div class="tableheader_new" style="margin-bottom:2px;">Agent Invoices</div>
+                            <div class='table-responsive scrollbar-thin' style='max-height:300px;'>
+                                <table class='table table-striped'>
+                                    <thead style="position: sticky;top: 0; background:#20acd4">
+                                        <tr style="font-size:16px;">
+                                            <th name="th_inv_number" class="headertablefixed" style="color:#FFF">
+                                                <strong>Invoice Number</strong>
+                                            </th>
+                                            <th name="th_agent_name" class="headertablefixed" style="color:#FFF">
+                                                <strong>Agent</strong>
+                                            </th>
+                                            <th name="th_due_date" class="headertablefixed" style="color:#FFF">
+                                                <strong>Due Date</strong>
+                                            </th>
+                                            <th name="th_total_amount" class="headertablefixed" style="color:#FFF">
+                                                <strong>Total Amount</strong>
+                                            </th>
+                                            <th name="th_amount_residual" class="headertablefixed" style="color:#FFF">
+                                                <strong>Total Due</strong>
+                                            </th>
+                                            <th name="th_progress_bar" class="headertablefixed text-center"
+                                                style="color:#FFF">
+                                                <strong>Progress</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="widget.invoice_lines" t-as="invoice_line">
+                                            <tr t-att-class='o_line_section'>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="invoice_line.invoice_number"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="invoice_line.agent_name"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="invoice_line.invoice_due_date"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="invoice_line.total_amount"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="invoice_line.amount_residual"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style='padding:10px;'>
+                                                    <progress id="progress_bar" t-att-value="invoice_line.progress"
+                                                              max="100">
+
+                                                    </progress>
+                                                    <span>
+                                                        <t t-esc="invoice_line.progress"/>
+                                                    </span>
+                                                    <span>%</span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 graph_div">
+                       <div id="tabletargets">
+                            <div class="tableheader_new" style="margin-bottom:2px;">Agent Indents</div>
+                            <div class='table-responsive scrollbar-thin' style='max-height:300px;'>
+                                <table class='table table-striped'>
+                                    <thead style="position: sticky;top: 0; background:#20acd4">
+
+                                            <tr style="font-size:16px;">
+                                                <th name="th_inv_number" class="headertablefixed" style="color:#FFF">
+                                                       <span> <strong>Agents </strong></span>
+                                                    </th>
+                                                <t t-foreach="widget.week_date_range" t-as="date">
+                                                    <th name="th_inv_number" class="headertablefixed" style="color:#FFF">
+                                                       <span><t t-esc="date"/></span>
+                                                    </th>
+                                                </t>
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="widget.agent_week_indent" t-as="agent_indent">
+                                            <tr t-att-class='o_line_section'>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="agent_indent"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="widget.agent_week_indent[agent_indent]['2023-11-20']"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="widget.agent_week_indent[agent_indent]['2023-11-21']"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="widget.agent_week_indent[agent_indent]['2023-11-22']"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="widget.agent_week_indent[agent_indent]['2023-11-23']"/>
+                                                    </span>
+                                                </td>
+                                                <td style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="widget.agent_week_indent[agent_indent]['2023-11-24']"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style='padding:10px;'>
+                                                    <span>
+                                                        <t t-esc="widget.agent_week_indent[agent_indent]['2023-11-25']"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center" style='padding:10px;'>
+                                                   <span>
+                                                        <t t-esc="widget.agent_week_indent[agent_indent]['2023-11-26']"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        <div class="modal" id="myModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Profile Details</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="container mt-5 d-flex justify-content-center">
+                            <div class="card p-3">
+
+                                <div class="d-flex align-items-center">
+
+                                    <!--                                    <div class="image">-->
+                                    <!--                                        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=500&q=80"-->
+                                    <!--                                             class="rounded" width="155"/>-->
+                                    <!--                                    </div>-->
+
+                                    <div class="ml-3 w-100">
+
+                                        <h4 class="mb-0 mt-0">Alex HMorrision</h4>
+                                        <span>Senior Journalist</span>
+
+                                        <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+
+                                            <div class="d-flex flex-column">
+
+                                                <span class="articles">Articles</span>
+                                                <span class="number1">38</span>
+
+                                            </div>
+
+                                            <div class="d-flex flex-column">
+
+                                                <span class="followers">Followers</span>
+                                                <span class="number2">980</span>
+
+                                            </div>
+
+
+                                            <div class="d-flex flex-column">
+
+                                                <span class="rating">Rating</span>
+                                                <span class="number3">8.9</span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="button mt-2 d-flex flex-row align-items-center">
+
+                                            <button class="btn btn-sm btn-outline-primary w-100">Chat</button>
+                                            <button class="btn btn-sm btn-primary w-100 ml-2">Follow</button>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+  </div>
+    </t>
+
+
+
+</template>

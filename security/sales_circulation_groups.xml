@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.module.category" id="eenadu_sales_circulation_category">
+        <field name="name">Circulation</field>
+        <field name="sequence">11</field>
+    </record>
+
+    <record id="sales_circulation_admin_group" model="res.groups">
+        <field name="name">Admin</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <record id="sales_circulation_agent_group" model="res.groups">
+        <field name="name">Circulation Agent</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <!--        demand request -->
+    <record id="sales_circulation_demand_request_agent_rule" model="ir.rule">
+        <field name="name">Agent Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups" eval="[(6,0, [ref('sales_circulation_agent_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">[('Agent_id','=',user.partner_id.id)]
+        </field>
+    </record>
+
+
+    <!--    <record id="group_sales_circulation_demand_request_agent_indent" model="res.groups">-->
+    <!--        <field name="name">Agent Indent</field>-->
+    <!--        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+    <!--        <field name="category_id" ref="sales_circulation_category"/>-->
+    <!--    </record>-->
+
+    <record id="sales_circulation_segment_incharge_group" model="res.groups">
+        <field name="name">Segment Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <record id="sales_circulation_demand_request_segment_incharge_rule" model="ir.rule">
+        <field name="name">Segment Incharge Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups" eval="[(6,0, [ref('sales_circulation_segment_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|',('Agent_id.hr_employee_id.user_id', '=', user.id),('Agent_id',
+            '=',user.partner_id.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_publication_incharge_group" model="res.groups">
+        <field name="name">Publication Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <record id="sales_circulation_circulation_demand_request_incharge_rule" model="ir.rule">
+        <field name="name">Publication Incharge Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups" eval="[(6,0, [ref('sales_circulation_publication_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|',('Agent_id',
+            '=',user.partner_id.id),('Agent_id.hr_employee_id.parent_id.user_id','=',user.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_circulation_incharge_group" model="res.groups">
+        <field name="name">Circulation Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <record id="sales_circulation_demand_request_circulation_incharge_rule" model="ir.rule">
+        <field name="name">Circulation Incharge Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_circulation_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|',('Agent_id',
+            '=',user.partner_id.id),('Agent_id.hr_employee_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_unit_incharge_group" model="res.groups">
+        <field name="name">Unit Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <record id="sales_circulation_demand_request_unit_incharge_rule" model="ir.rule">
+        <field name="name">Unit Incharge Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_unit_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|',('Agent_id',
+            '=',user.partner_id.id),('Agent_id.hr_employee_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_regional_incharge_group" model="res.groups">
+        <field name="name">Regional Incharge</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <record id="sales_circulation_demand_request_regional_incharge_rule" model="ir.rule">
+        <field name="name">Regional Incharge Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_regional_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|','|',('Agent_id',
+            '=',user.partner_id.id),('Agent_id.hr_employee_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_circulation_admin_group" model="res.groups">
+        <field name="name">Circulation Admin</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <record id="sales_circulation_demand_request_circulation_admin_rule" model="ir.rule">
+        <field name="name">Circulation admin Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_circulation_admin_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|','|','|',('Agent_id',
+            '=',user.partner_id.id),('Agent_id.hr_employee_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_circulation_head_group" model="res.groups">
+        <field name="name">Circulation Head</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="eenadu_sales_circulation_category"/>
+    </record>
+
+    <!--    Agent >> Segment Incharge >> Publication Incharge >> circulation Incharge >> Unit incharge >> Regional Incharge >> Circulation Admin >> Circulation Head -->
+    <record id="sales_circulation_demand_request_circulation_head_rule" model="ir.rule">
+        <field name="name">Circulation head Rule</field>
+        <field name="model_id" ref="model_demand_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_circulation_head_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|','|','|','|',('Agent_id',
+            '=',user.partner_id.id),('Agent_id.hr_employee_id.parent_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('Agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+
+    <!--    return request  -->
+    <record id="sales_circulation_return_request_agent_rule" model="ir.rule">
+        <field name="name">Return Request Agent Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups" eval="[(6,0, [ref('sales_circulation_agent_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">[('agent_id','=',user.partner_id.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_return_request_segment_incharge_rule" model="ir.rule">
+        <field name="name">Return Request Segment Incharge Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups" eval="[(6,0, [ref('sales_circulation_segment_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|',('agent_id.hr_employee_id.user_id', '=', user.id),('agent_id',
+            '=',user.partner_id.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_circulation_return_request_incharge_rule" model="ir.rule">
+        <field name="name">Return Publication Incharge Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups" eval="[(6,0, [ref('sales_circulation_publication_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|',('agent_id',
+            '=',user.partner_id.id),('agent_id.hr_employee_id.parent_id.user_id','=',user.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_return_request_circulation_incharge_rule" model="ir.rule">
+        <field name="name">Return Circulation Incharge Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_circulation_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|',('agent_id',
+            '=',user.partner_id.id),('agent_id.hr_employee_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_return_request_unit_incharge_rule" model="ir.rule">
+        <field name="name">Return Unit Incharge Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_unit_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|',('agent_id',
+            '=',user.partner_id.id),('agent_id.hr_employee_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_return_request_regional_incharge_rule" model="ir.rule">
+        <field name="name">Return Regional Incharge Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_regional_incharge_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|','|',('agent_id',
+            '=',user.partner_id.id),('agent_id.hr_employee_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+
+    <record id="sales_circulation_return_request_circulation_admin_rule" model="ir.rule">
+        <field name="name">Return Circulation admin Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_circulation_admin_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|','|','|',('agent_id',
+            '=',user.partner_id.id),('agent_id.hr_employee_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+    <record id="sales_circulation_return_request_circulation_head_rule" model="ir.rule">
+        <field name="name">Return Circulation head Rule</field>
+        <field name="model_id" ref="model_return_request"/>
+        <field name="groups"
+               eval="[(6,0, [ref('sales_circulation_circulation_head_group')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|','|','|','|','|','|','|',('agent_id',
+            '=',user.partner_id.id),('agent_id.hr_employee_id.parent_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('agent_id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]
+        </field>
+    </record>
+
+
+    <!--    res.partner-->
+<!--    <function name="write" model="ir.model.data">-->
+<!--        <value model="ir.model.data"-->
+<!--               search="[('module', '=', 'base'), ('name', '=', 'res_partner_rule_private_employee')]"/>-->
+<!--        <value eval="{'noupdate': False}"/>-->
+<!--    </function>-->
+
+    <!--    <record id="base.res_partner_rule_private_employee" model="ir.rule">-->
+    <!--        <field name="groups" eval="[Command.set([ref('base.group_system')])]"/>-->
+    <!--    </record>-->
+
+
+<!--    <record id="sales_circulation_res_partner_agent_rule" model="ir.rule">-->
+<!--        <field name="name">Partner Request Agent Rule</field>-->
+<!--        <field name="model_id" ref="model_res_partner"/>-->
+<!--        &lt;!&ndash;        <field name="groups" eval="[(6,0, [ref('sales_circulation_agent_group')])]"/>&ndash;&gt;-->
+
+<!--        <field name="perm_read" eval="True"/>-->
+<!--        <field name="perm_write" eval="True"/>-->
+<!--        <field name="perm_create" eval="True"/>-->
+<!--        <field name="perm_unlink" eval="False"/>-->
+<!--        <field name="groups" eval="[Command.link(ref('sales_circulation_agent_group'))]"/>-->
+<!--        <field name="domain_force">[('user_id','=',user.id)]-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="res_partner_rule_private_employee_new" model="ir.rule">-->
+<!--        <field name="name">res.partner.rule.private.employee</field>-->
+<!--        <field name="model_id" ref="base.model_res_partner"/>-->
+<!--        <field name="domain_force">-->
+<!--            ['|', ('type', '!=', 'private'), ('type', '=', False)]-->
+<!--        </field>-->
+<!--        <field name="groups" eval="[-->
+<!--                Command.link(ref('base.group_user')),-->
+<!--            ]"/>-->
+<!--        <field name="perm_read" eval="True"/>-->
+<!--        <field name="perm_write" eval="True"/>-->
+<!--        <field name="perm_create" eval="True"/>-->
+<!--        <field name="perm_unlink" eval="True"/>-->
+<!--    </record>-->
+
+    <!--    <record id="res_partner_rule_private_group_new" model="ir.rule">-->
+    <!--        <field name="name">Partner Request Agent Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="domain_force">-->
+    <!--            [('user_id','=',user.id)]-->
+    <!--        </field>-->
+    <!--        <field name="groups" eval="[-->
+    <!--                Command.link(ref('sales_circulation_agent_group'))-->
+    <!--            ]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="True"/>-->
+    <!--    </record>-->
+
+    <!--    <record id="sales_circulation_res_partner_segment_incharge_rule" model="ir.rule">-->
+    <!--        <field name="name">Partner Request Segment Incharge Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="groups" eval="[(6,0, [ref('sales_circulation_segment_incharge_group')])]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="False"/>-->
+    <!--        <field name="domain_force">['|',('id.hr_employee_id.user_id', '=', user.id),('id',-->
+    <!--            '=',user.partner_id.id)]-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    <record id="sales_circulation_circulation_res_partner_incharge_rule" model="ir.rule">-->
+    <!--        <field name="name">Partner Publication Incharge Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="groups" eval="[(6,0, [ref('sales_circulation_publication_incharge_group')])]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="False"/>-->
+    <!--        <field name="domain_force">['|','|',('id',-->
+    <!--            '=',user.partner_id.id),('id.hr_employee_id.parent_id.user_id','=',user.id),('id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    <record id="sales_circulation_res_partner_circulation_incharge_rule" model="ir.rule">-->
+    <!--        <field name="name">Partner Circulation Incharge Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="groups"-->
+    <!--               eval="[(6,0, [ref('sales_circulation_circulation_incharge_group')])]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="False"/>-->
+    <!--        <field name="domain_force">['|','|','|',('id',-->
+    <!--            '=',user.partner_id.id),('id.hr_employee_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id)]-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    <record id="sales_circulation_res_partner_unit_incharge_rule" model="ir.rule">-->
+    <!--        <field name="name">Partner Unit Incharge Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="groups"-->
+    <!--               eval="[(6,0, [ref('sales_circulation_unit_incharge_group')])]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="False"/>-->
+    <!--        <field name="domain_force">['|','|','|','|',('id',-->
+    <!--            '=',user.partner_id.id),('id.hr_employee_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    <record id="sales_circulation_res_partner_regional_incharge_rule" model="ir.rule">-->
+    <!--        <field name="name">Partner Regional Incharge Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="groups"-->
+    <!--               eval="[(6,0, [ref('sales_circulation_regional_incharge_group')])]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="False"/>-->
+    <!--        <field name="domain_force">['|','|','|','|','|',('id',-->
+    <!--            '=',user.partner_id.id),('id.hr_employee_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+    <!--    <record id="sales_circulation_res_partner_circulation_admin_rule" model="ir.rule">-->
+    <!--        <field name="name">Partner Circulation admin Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="groups"-->
+    <!--               eval="[(6,0, [ref('sales_circulation_circulation_admin_group')])]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="False"/>-->
+    <!--        <field name="domain_force">['|','|','|','|','|','|',('id',-->
+    <!--            '=',user.partner_id.id),('id.hr_employee_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--    <record id="sales_circulation_res_partner_circulation_head_rule" model="ir.rule">-->
+    <!--        <field name="name">Partner Circulation head Rule</field>-->
+    <!--        <field name="model_id" ref="model_res_partner"/>-->
+    <!--        <field name="groups"-->
+    <!--               eval="[(6,0, [ref('sales_circulation_circulation_head_group')])]"/>-->
+    <!--        <field name="perm_read" eval="True"/>-->
+    <!--        <field name="perm_write" eval="True"/>-->
+    <!--        <field name="perm_create" eval="True"/>-->
+    <!--        <field name="perm_unlink" eval="False"/>-->
+    <!--        <field name="domain_force">['|','|','|','|','|','|','|',('id',-->
+    <!--            '=',user.partner_id.id),('id.hr_employee_id.parent_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id.parent_id','=',user.hr_employee_cirulation_agent.id),('id.user_id.hr_employee_cirulation_agent.parent_id','=',user.hr_employee_cirulation_agent.id)]-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+</odoo>

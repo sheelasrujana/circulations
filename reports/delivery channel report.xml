@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="channel_report">
+
+
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <td t-call="web.basic_layout">
+                    <div style="height:1200px;border:solid 2px">
+                        <div class="reporttt" style="border:0px solid">
+                            <h3 align="center">USHODAYA ENTERPRISES PVT. LTD</h3>
+                            <p align="center">(USHODAYA PUBLICATIONS)</p>
+                            <p align="center">PLOT NO.AI/1(PART),BLOCK NO.3 ,SURVETY NO.1,I D A ,UPPAL 500039</p>
+                            <P align="center">
+                                <b>GST NO:
+                                    <t t-esc="o.partner_id.vat"></t>
+                                </b>
+                            </P>
+                            <div id="delivery" style="border:1px solid">
+                                <h3 align="center">
+                                    <u>
+                                        <b>DELIVERY CHALLAN/ INTIMATION</b>
+                                    </u>
+                                </h3>
+                            </div>
+                            <div id="table1" style="border-bottom:2px solid">
+                                <table style="border-bottom:2px;border-bottom:none;border-right:none">
+                                    <tr style="border:none">
+                                        <th colspan="2" style="padding-right:80px; border:none">D.C.NO:</th>
+                                        <td colspan="2" style="padding-right:70px;border:none">
+                                            <t t-esc="o.name"></t>
+                                        </td>
+                                        <th rowspan="3" style="padding-right:70px;border:none">
+                                            <b>GATE PASS</b>
+                                        </th>
+                                        <th style="border:none;padding-right:90px">D.C.DATE:</th>
+                                        <td style="border:none">
+                                            <!--                                            <t t-esc="o.name"></t>-->
+
+                                        </td>
+                                    </tr>
+                                    <tr style="border:none">
+                                        <th colspan="2" style="padding-right:80px;border:none">ISU.NO:</th>
+                                        <td colspan="2" style="padding-right:70px;border:none"></td>
+                                        <th style="padding-right:90px;border:none">ISU.DATE:</th>
+                                        <td style="border:none"></td>
+
+                                    </tr>
+                                    <tr style="border:none">
+                                        <th colspan="2" style="padding-right:70px;border:none;padding-left:12px">
+                                            LORRY.NO:
+                                        </th>
+                                        <td colspan="2" style="padding-right:70px;border:none">
+                                            <t t-esc="o.lorry_no"></t>
+                                        </td>
+                                        <th style="border:none;padding-right:90px">LR NO:</th>
+                                        <td style="border:none">
+                                            <t t-esc="o.lr_no"></t>
+                                        </td>
+                                    </tr>
+                                    <tr style="border:none">
+                                        <th colspan="2" style="border:none">
+                                            <p>
+                                                <b>SER.NO.OF.INV:</b>
+                                            </p>
+                                        </th>
+                                        <td colspan="2" style="border:none">
+                                        </td>
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="par1">
+                                <p>To,
+                                    <br/>
+                                    <br/>
+
+                                    <p>
+                                        <t t-esc="o.partner_id.street"></t>
+                                    </p>
+                                    <p>
+                                        <t t-esc="o.partner_id.street2"></t>
+                                    </p>
+                                    <span t-esc="o.partner_id.city">,</span>
+                                    <span t-esc="o.partner_id.state_id.name">,</span>
+
+                                    <span t-esc="o.partner_id.zip"></span>
+                                    <br/>
+                                    <br/>
+
+                                    <b>GST NO :
+                                        <t t-esc="o.partner_id.vat"></t>
+
+                                    </b>
+                                </p>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <P style="padding-left:10px">Kindly receive the following goods in good condition and
+                                    send
+                                    the
+                                    copies duty acknowledged.
+                                </P>
+                                <br/>
+                                <br/>
+                            </div>
+                            <table style="border:1px solid">
+
+
+                                <tr style="border:1px solid">
+                                    <th style="padding-right:10px;border-right:2px solid">SNo</th>
+                                    <th style="padding-right:10px ;border-right:2px solid">Item Code</th>
+                                    <th style="padding-right:10px ;border-right:2px solid">Hsn Code</th>
+                                    <th style="padding-right:150px ;border-right:2px solid">Item Name</th>
+                                    <th style="padding-right:10px ;border-right:2px solid">UOM</th>
+                                    <th style="padding-right:10px ;border-right:2px solid">Reel No.</th>
+                                    <th style="padding-right:10px ;border-right:2px solid">Gross<br/>QTY
+                                    </th>
+                                    <th style="padding-right:10px ;border-right:2px solid">Dmg</th>
+                                    <th style="padding-right:10px ;border-right:2px solid">Net<br/>QTY
+                                    </th>
+                                    <th style="padding-right:10px ;border-right:2px solid">UnitRate</th>
+                                    <th style="padding-right:10px">Amount</th>
+
+
+                                </tr>
+
+                                <!--                            <t t-foreach="o.move_line_nosuggest_ids" t-as="doc">-->
+                                <!--                                <tr style="border:1px solid">-->
+                                <t t-set="lines" t-value="o.move_line_nosuggest_ids"/>
+                                <tr t-foreach="lines" t-as="move" style="border-bottom:1px solid">
+                                    <td style="padding-right:10px;border-right:2px solid">
+<!--                                        <b>-->
+                                            <span t-esc="move.lot_id.name"></span>
+<!--                                        </b>-->
+                                    </td>
+                                    <td style="padding-right:10px ;border-right:2px solid"></td>
+                                    <td style="padding-right:10px ;border-right:2px solid"></td>
+                                    <td style="padding-right:10px ;border-right:2px solid">
+
+<!--                                        <b>-->
+                                            <span t-esc="move.product_id.name"></span>
+<!--                                        </b>-->
+                                    </td>
+                                    <td style="padding-right:10px ;border-right:2px solid">
+<!--                                        <b>-->
+                                            <span t-esc="move.product_uom_id.name"></span>
+<!--                                        </b>-->
+
+
+                                        <!--                                    <t t-esc="o.product_uom_id"></t>-->
+                                    </td>
+                                    <td style="padding-right:10px ;border-right:2px solid"></td>
+                                    <td style="padding-right:10px ;border-right:2px solid">
+<!--                                        <b>-->
+                                            <span t-esc="move.qty_done"></span>
+<!--                                        </b>-->
+
+                                    </td>
+                                    <td style="padding-right:10px ;border-right:2px solid">
+<!--                                        <b>-->
+                                            <span t-esc="move.damage_qty"></span>
+<!--                                        </b>-->
+                                        <!--                                    <t t-esc="o.damage_qty"></t>-->
+                                    </td>
+                                    <td style="padding-right:10px ;border-right:2px solid">
+<!--                                        <b>-->
+                                            <span t-esc="move.net_qty"></span>
+<!--                                        </b>-->
+                                        <!--                                    <t t-esc="o.net_qty"></t>-->
+                                    </td>
+                                    <td style="padding-right:10px ;border-right:2px solid"></td>
+                                    <td style="padding-right:10px">
+
+                                            <span t-esc="move.product_id.lst_price"></span>
+
+                                    </td>
+
+
+                                </tr>
+                                <!--                            </t>-->
+                            </table>
+
+
+                        </div>
+                    </div>
+                </td>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>
